@@ -1,4 +1,4 @@
-package com.example.beca_android_finalproject
+package com.example.beca_android_finalproject.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
