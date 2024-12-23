@@ -8,4 +8,5 @@ interface MovieRepository {
     suspend fun searchMovies(query: String, page: Int): Flow<List<Movie>>
     suspend fun getMovieDetails(movieId: Int): Flow<Movie>
     suspend fun toggleFavorite(movieId: Int)
+    suspend fun getFavorites(): Flow<List<Movie>>
 }

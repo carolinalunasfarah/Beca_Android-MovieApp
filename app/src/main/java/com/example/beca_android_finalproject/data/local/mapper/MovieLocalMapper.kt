@@ -4,7 +4,7 @@ import com.example.beca_android_finalproject.data.local.entities.MovieEntity
 import com.example.beca_android_finalproject.domain.model.Movie
 import javax.inject.Inject
 
-class MovieMapper @Inject constructor () {
+class MovieLocalMapper @Inject constructor () {
     fun toDomain(entity: MovieEntity): Movie =
         Movie(
             id = entity.id,

@@ -1,16 +1,22 @@
 package com.example.beca_android_finalproject.data.local.datasource
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
 import com.example.beca_android_finalproject.data.local.dao.MovieDao
 import com.example.beca_android_finalproject.data.local.entities.MovieEntity
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-@Database(
-    entities = [MovieEntity::class],
-    version = 1,
-    exportSchema = true
-)
+class LocalDataSource @Inject constructor(
+    private val movieDao: MovieDao
+) {
+    fun getFavorites(): Flow<List<MovieEntity>> = movieDao.getFavorites()
 
-abstract class MovieDatabase : RoomDatabase() {
-    abstract fun movieDao(): MovieDao
+    suspend fun insertMovies(movies: List<MovieEntity>) {
+        movieDao.insertMovies(movies)
+    }
+
+    suspend fun updateFavorite(movieId: Int, isFavorite: Boolean) {
+        movieDao.updateFavorite(movieId, isFavorite)
+    }
+
+    fun isFavorite(movieId: Int): Flow<Boolean> = movieDao.isFavorite(movieId)
 }

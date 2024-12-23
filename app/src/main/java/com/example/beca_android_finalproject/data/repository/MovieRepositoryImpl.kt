@@ -1,39 +1,75 @@
 package com.example.beca_android_finalproject.data.repository
 
-import com.example.beca_android_finalproject.data.local.dao.MovieDao
-import com.example.beca_android_finalproject.data.remote.api.MovieApi
+import com.example.beca_android_finalproject.data.local.datasource.LocalDataSource
+import com.example.beca_android_finalproject.data.local.mapper.MovieLocalMapper
+import com.example.beca_android_finalproject.data.remote.api.mapper.MovieRemoteMapper
+import com.example.beca_android_finalproject.data.remote.datasource.RemoteDataSource
 import com.example.beca_android_finalproject.domain.model.Movie
+import com.example.beca_android_finalproject.domain.repository.MovieRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MovieRepositoryImpl @Inject constructor(
-    private val api: MovieApi,
-    private val dao: MovieDao,
+abstract class MovieRepositoryImpl @Inject constructor(
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource,
+    private val movieRemoteMapper: MovieRemoteMapper,
+    private val movieLocalMapper: MovieLocalMapper,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : MovieRepository {
+
     override fun getPopularMovies(page: Int): Flow<List<Movie>> = flow {
-        emitAll(dao.getPopularMovies().map { entities ->
-            entities.map { it.toDomain() }
+        emitAll(localDataSource.getFavorites().map { entities ->
+            movieLocalMapper.toDomainList(entities)
         })
 
         try {
-            val remoteMovies = api.getPopularMovies(page).results
-            dao.insertMovies(remoteMovies.map { it.toEntity() })
+            val remoteMovies = remoteDataSource.getPopularMovies(page).movies
+            val moviesEntities = remoteMovies.map { movieRemoteMapper.toEntity(it) }
+            localDataSource.insertMovies(moviesEntities)
         } catch (e: Exception) {
-            //TODO
+            throw e
         }
+    }.flowOn(dispatcher)
+
+    override suspend fun searchMovies(query: String, page: Int): Flow<List<Movie>> = flow {
+        try {
+            val remoteMovies = remoteDataSource.searchMovies(query, page).movies
+            emit(remoteMovies.map { movieRemoteMapper.toDomain(it) })
+        } catch (e: Exception) {
+            throw e
+        }
+    }.flowOn(dispatcher)
+
+
+    override suspend fun getMovieDetails(movieId: Int): Flow<Movie> = flow {
+            try {
+                val movieDto = remoteDataSource.getMovieDetails(movieId)
+                emit(movieRemoteMapper.toDomain(movieDto))
+            } catch (e: Exception) {
+                throw e
+            }
     }.flowOn(dispatcher)
 
 
     override suspend fun toggleFavorite(movieId: Int) {
         withContext(dispatcher) {
-            val isFavorite = dao.isFavorite(movieId)
-            dao.updateFavorite(movieId, !isFavorite)
+            val isFavorite = localDataSource.isFavorite(movieId).first()
+            localDataSource.updateFavorite(movieId, !isFavorite)
         }
     }
+
+    override suspend fun getFavorites(): Flow<List<Movie>> = flow {
+        emitAll(localDataSource.getFavorites().map { entities ->
+            movieLocalMapper.toDomainList(entities)
+        })
+    }.flowOn(dispatcher)
 }
+
