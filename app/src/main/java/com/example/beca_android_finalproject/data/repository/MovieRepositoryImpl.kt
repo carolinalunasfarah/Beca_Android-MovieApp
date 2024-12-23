@@ -16,22 +16,23 @@ class MovieRepositoryImpl @Inject constructor(
     private val dao: MovieDao,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : MovieRepository {
-    override fun getPopularMovies(page: Int) : Flow<List<Movie>> = flow {
-        // Emit cached data first
-        emitAll(dao.getPopularMovies().map { it.toDomain() })
+    override fun getPopularMovies(page: Int): Flow<List<Movie>> = flow {
+        emitAll(dao.getPopularMovies().map { entities ->
+            entities.map { it.toDomain() }
+        })
 
-        // Fetch fresh data
         try {
             val remoteMovies = api.getPopularMovies(page).results
             dao.insertMovies(remoteMovies.map { it.toEntity() })
-        } catch (e: Exception){
-            throw e
+        } catch (e: Exception) {
+            //TODO
         }
     }.flowOn(dispatcher)
 
+
     override suspend fun toggleFavorite(movieId: Int) {
-        withContext(dispatcher){
-            val isFavorite = dao.isFavorite(movieId).first()
+        withContext(dispatcher) {
+            val isFavorite = dao.isFavorite(movieId)
             dao.updateFavorite(movieId, !isFavorite)
         }
     }

@@ -12,6 +12,9 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE isFavorite = 1")
     fun getFavorites(): Flow<List<MovieEntity>>
 
+    @Query("SELECT * FROM movies")
+    fun getPopularMovies(): Flow<List<MovieEntity>>
+
     @Query("SELECT isFavorite FROM movies WHERE id = :movieId")
     fun isFavorite(movieId: Int): Flow<Boolean>
 
@@ -20,6 +23,4 @@ interface MovieDao {
 
     @Query("UPDATE movies SET isFavorite = :isFavorite WHERE id = :movieId")
     suspend fun updateFavorite(movieId: Int, isFavorite: Boolean)
-
-    abstract fun getPopularMovies(): Any
 }

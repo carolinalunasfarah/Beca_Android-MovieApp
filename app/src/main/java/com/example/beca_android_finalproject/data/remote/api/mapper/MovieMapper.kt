@@ -1,6 +1,6 @@
 package com.example.beca_android_finalproject.data.remote.api.mapper
 
-import com.example.beca_android_finalproject.data.remote.api.models.MovieDto
+import com.example.beca_android_finalproject.data.remote.api.dto.MovieDto
 import com.example.beca_android_finalproject.domain.model.Movie
 
 class MovieMapper {
@@ -9,7 +9,7 @@ class MovieMapper {
         Movie(
             id = dto.id,
             overview = dto.overview,
-            poster = dto.posterPath,
+            posterPath = dto.posterPath ?: "",
             title = dto.title
         )
 }

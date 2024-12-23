@@ -1,4 +1,4 @@
-package com.example.beca_android_finalproject.data.remote.api.models
+package com.example.beca_android_finalproject.data.remote.api.dto
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

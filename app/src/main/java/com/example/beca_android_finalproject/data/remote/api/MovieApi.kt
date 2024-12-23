@@ -1,7 +1,7 @@
 package com.example.beca_android_finalproject.data.remote.api
 
-import com.example.beca_android_finalproject.data.remote.api.models.MovieDto
-import com.example.beca_android_finalproject.data.remote.api.models.MovieResponse
+import com.example.beca_android_finalproject.data.remote.api.dto.MovieDto
+import com.example.beca_android_finalproject.data.remote.api.dto.MovieResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
