@@ -90,6 +90,9 @@ dependencies {
     implementation(libs.moshi.kotlin)
     ksp(libs.moshi.kotlin.codegen)
 
+    // ViewModel
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+
     // Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

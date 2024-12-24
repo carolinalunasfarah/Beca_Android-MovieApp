@@ -9,7 +9,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 object RetrofitClient {
 
     private const val BASE_URL = "https://api.themoviedb.org/3/"
-    private const val TOKEN = BuildConfig.TMDB_API_KEY
+    private const val API_KEY = BuildConfig.TMDB_API_KEY
 
     val movieApi: MovieApi by lazy {
         val client = OkHttpClient.Builder()
@@ -21,7 +21,7 @@ object RetrofitClient {
             )
             requestBuilder.header(
                 "Authorization",
-                "Bearer $TOKEN"
+                "Bearer $API_KEY"
             )
             chain.proceed(requestBuilder.build())
         }
