@@ -28,18 +28,20 @@ class MovieRepositoryImpl @Inject constructor(
 ) : MovieRepository {
 
     override fun getPopularMovies(page: Int): Flow<List<Movie>> = flow {
-        emitAll(localDataSource.getFavorites().map { entities ->
-            movieLocalMapper.toDomainList(entities)
-        })
+        val localMovies = localDataSource.getFavorites().first()
+        emit(movieLocalMapper.toDomainList(localMovies))
 
         try {
             val remoteMovies = remoteDataSource.getPopularMovies(page).movies
             val moviesEntities = remoteMovies.map { movieRemoteMapper.toEntity(it) }
             localDataSource.insertMovies(moviesEntities)
+
+            emit(movieRemoteMapper.toDomainList(remoteMovies))
         } catch (e: Exception) {
             throw e
         }
     }.flowOn(dispatcher)
+
 
     override suspend fun searchMovies(query: String, page: Int): Flow<List<Movie>> = flow {
         try {

@@ -23,4 +23,8 @@ class MovieRemoteMapper @Inject constructor() {
             posterPath = dto.posterPath,
             isFavorite = false
         )
+
+    fun toDomainList(entities: List<MovieDto>): List<Movie> {
+        return entities.map { toDomain(it) }
+    }
 }
