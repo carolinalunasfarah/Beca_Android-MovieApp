@@ -1,7 +1,8 @@
 package com.example.beca_android_finalproject.di
 
+import com.example.beca_android_finalproject.BuildConfig
 import com.example.beca_android_finalproject.data.remote.api.MovieApi
-import com.example.beca_android_finalproject.data.remote.datasource.RemoteDataSource
+import com.example.beca_android_finalproject.data.remote.api.client.RetrofitClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,11 +17,19 @@ import javax.inject.Singleton
 object NetworkModule {
 
     private const val BASE_URL = "https://api.themoviedb.org/3/"
+    private const val TOKEN = BuildConfig.TMDB_API_KEY
 
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder().build()
+        return OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val requestBuilder = chain.request().newBuilder()
+                requestBuilder.addHeader("accept", "application/json")
+                requestBuilder.header("Authorization", "Bearer $TOKEN")
+                chain.proceed(requestBuilder.build())
+            }
+            .build()
     }
 
     @Provides
@@ -35,13 +44,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMovieApi(retrofit: Retrofit): MovieApi {
-        return retrofit.create(MovieApi::class.java)
+    fun provideMovieApi(): MovieApi {
+        return RetrofitClient.movieApi
     }
 
-    @Provides
+    /*@Provides
     @Singleton
-    fun provideRemoteDataSource(api: MovieApi): RemoteDataSource {
-        return RemoteDataSource(api)
-    }
+    fun provideMovieApi(retrofit: Retrofit): MovieApi {
+        return retrofit.create(MovieApi::class.java)
+    }*/
 }

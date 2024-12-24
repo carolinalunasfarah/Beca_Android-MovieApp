@@ -1,13 +1,14 @@
 package com.example.beca_android_finalproject.data.repository
 
+import android.util.Log
 import com.example.beca_android_finalproject.data.local.datasource.LocalDataSource
 import com.example.beca_android_finalproject.data.local.mapper.MovieLocalMapper
+import com.example.beca_android_finalproject.data.remote.api.MovieApi
 import com.example.beca_android_finalproject.data.remote.api.mapper.MovieRemoteMapper
 import com.example.beca_android_finalproject.data.remote.datasource.RemoteDataSource
 import com.example.beca_android_finalproject.domain.model.Movie
 import com.example.beca_android_finalproject.domain.repository.MovieRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
@@ -18,11 +19,12 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
+    private val movieApi: MovieApi,
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val movieRemoteMapper: MovieRemoteMapper,
     private val movieLocalMapper: MovieLocalMapper,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher
 ) : MovieRepository {
 
     override fun getPopularMovies(page: Int): Flow<List<Movie>> = flow {

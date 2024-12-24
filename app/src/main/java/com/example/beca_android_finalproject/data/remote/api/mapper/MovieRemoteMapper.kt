@@ -3,8 +3,9 @@ package com.example.beca_android_finalproject.data.remote.api.mapper
 import com.example.beca_android_finalproject.data.local.entities.MovieEntity
 import com.example.beca_android_finalproject.data.remote.api.dto.MovieDto
 import com.example.beca_android_finalproject.domain.model.Movie
+import javax.inject.Inject
 
-class MovieRemoteMapper {
+class MovieRemoteMapper @Inject constructor() {
 
     fun toDomain(dto: MovieDto): Movie =
         Movie(
