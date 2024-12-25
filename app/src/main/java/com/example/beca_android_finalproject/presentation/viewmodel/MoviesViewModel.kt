@@ -2,6 +2,7 @@ package com.example.beca_android_finalproject.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.beca_android_finalproject.domain.model.Movie
 import com.example.beca_android_finalproject.domain.usecase.GetMoviesDetailsUseCase
 import com.example.beca_android_finalproject.domain.usecase.GetPopularMoviesUseCase
 import com.example.beca_android_finalproject.domain.usecase.ToggleFavoriteUseCase
@@ -18,9 +19,10 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
-    private val getMovieDetailsUseCase: GetMoviesDetailsUseCase,
+    //private val getMovieDetailsUseCase: GetMoviesDetailsUseCase,
     //private val searchMovieUseCase: SearchMoviesUseCase
 ) : ViewModel() {
+
     private val _uiState = MutableStateFlow(MoviesUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -35,7 +37,7 @@ class MoviesViewModel @Inject constructor(
             is MoviesUiEvent.ToggleFavorite -> toggleFavorite(event.movieId)
             //is MoviesUiEvent.SearchMovies -> searchMovies(event.query, event.page)
             is MoviesUiEvent.LoadMore -> loadMovies()
-            is MoviesUiEvent.MovieDetails -> loadMovieDetails(event.movieId)
+            //is MoviesUiEvent.MovieDetails -> loadMovieDetails(event.movieId)
         }
     }
 
@@ -62,7 +64,7 @@ class MoviesViewModel @Inject constructor(
         }
     }
 
-    private fun toggleFavorite(movieId: Int) {
+    fun toggleFavorite(movieId: Int) {
         viewModelScope.launch {
             try {
                 toggleFavoriteUseCase(movieId)
@@ -76,44 +78,7 @@ class MoviesViewModel @Inject constructor(
         }
     }
 
-    /*private fun searchMovies(query: String, page: Int) {
-        viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true) }
-
-            try {
-                searchMovieUseCase(query, page)
-                    .collect { movies ->
-                        _uiState.update {
-                            it.copy(
-                                movies = movies,
-                                isLoading = false,
-                                error = null
-                            )
-                        }
-                    }
-            } catch (e: Exception) {
-                _uiState.update { it.copy(error = e.message, isLoading = false) }
-            }
-        }
-    }*/
-
-    private fun loadMovieDetails(movieId: Int) {
-        viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true) }
-
-            try {
-                getMovieDetailsUseCase(movieId)
-                    .collect {
-                        _uiState.update {
-                            it.copy(
-                                isLoading = false,
-                                error = null
-                            )
-                        }
-                    }
-            } catch (e: Exception) {
-                _uiState.update { it.copy(error = e.message, isLoading = false) }
-            }
-        }
+    fun getFavoriteMovies(): List<Movie> {
+        return _uiState.value.movies.filter { it.isFavorite }
     }
 }

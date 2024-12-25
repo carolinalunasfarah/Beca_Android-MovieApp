@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,7 +26,7 @@ fun MovieCard(
     viewModel: MoviesViewModel = hiltViewModel(),
     movie: Movie,
     onClick: () -> Unit,
-    onFavoriteClick: () -> Unit
+    onFavoriteClick: (Int) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -42,9 +43,11 @@ fun MovieCard(
                 contentDescription = null
             )
             Spacer(modifier = Modifier.padding(16.dp))
-            IconButton(onClick = onFavoriteClick) {
-                Icon(imageVector = Icons.Default.Favorite, contentDescription = "Favorite")
+            IconButton(onClick = { onFavoriteClick(movie.id) }) {
+                val favoriteIcon = if (movie.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder
+                Icon(imageVector = favoriteIcon, contentDescription = "Favorite")
             }
         }
     }
 }
+
