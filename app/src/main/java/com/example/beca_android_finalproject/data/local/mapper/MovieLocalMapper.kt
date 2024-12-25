@@ -9,7 +9,7 @@ class MovieLocalMapper @Inject constructor () {
         Movie(
             id = entity.id,
             overview = entity.overview,
-            posterPath = entity.posterPath ?: "",
+            poster = entity.posterPath ?: "",
             title = entity.title
         )
 
@@ -17,7 +17,7 @@ class MovieLocalMapper @Inject constructor () {
         MovieEntity(
             id = domain.id,
             overview = domain.overview,
-            posterPath = domain.posterPath ?: "",
+            posterPath = domain.poster ?: "",
             title = domain.title
         )
 

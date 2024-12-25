@@ -42,15 +42,15 @@ object NetworkModule {
             .build()
     }
 
-    @Provides
+   /* @Provides
     @Singleton
     fun provideMovieApi(): MovieApi {
         return RetrofitClient.movieApi
-    }
+    }*/
 
-    /*@Provides
+    @Provides
     @Singleton
     fun provideMovieApi(retrofit: Retrofit): MovieApi {
         return retrofit.create(MovieApi::class.java)
-    }*/
+    }
 }

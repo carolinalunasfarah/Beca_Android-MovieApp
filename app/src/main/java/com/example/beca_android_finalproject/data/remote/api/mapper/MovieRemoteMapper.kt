@@ -11,7 +11,9 @@ class MovieRemoteMapper @Inject constructor() {
         Movie(
             id = dto.id,
             overview = dto.overview,
-            posterPath = dto.posterPath ?: "",
+            poster = dto.posterPath?.let {
+                "https://image.tmdb.org/t/p/w500$it"
+            },
             title = dto.title,
         )
 

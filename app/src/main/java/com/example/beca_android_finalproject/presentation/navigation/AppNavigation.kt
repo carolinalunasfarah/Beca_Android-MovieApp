@@ -28,7 +28,7 @@ fun AppNavigation(navController: NavHostController) {
         }
 
         composable(ScreenNavigation.Search.route) {
-            SearchScreen(navController)
+            SearchScreen()
         }
 
         /*composable(

@@ -34,7 +34,7 @@ data class MovieDto(
     @Json(name = "vote_count")
     val voteCount: Int
 ) {
-    fun poster(): String? = posterPath?.let {
+    /*fun poster(): String? = posterPath?.let {
         "https://image.tmdb.org/t/p/w500$it"
-    }
+    }*/
 }
