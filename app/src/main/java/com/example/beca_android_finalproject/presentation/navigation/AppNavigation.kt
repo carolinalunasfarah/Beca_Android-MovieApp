@@ -1,13 +1,6 @@
 package com.example.beca_android_finalproject.presentation.navigation
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.beca_android_finalproject.presentation.features.components.BottomNavBar
 import com.example.beca_android_finalproject.presentation.features.details.MovieDetailsScreen
 import com.example.beca_android_finalproject.presentation.features.details.MovieDetailsViewModel
 import com.example.beca_android_finalproject.presentation.features.movies.MoviesScreen
@@ -32,17 +26,7 @@ fun AppNavigation(navController: NavHostController) {
     //val detailsViewModel = hiltViewModel<MovieDetailsViewModel>()
 
     Scaffold(bottomBar = {
-        BottomAppBar {
-            IconButton(onClick = { navController.navigate(ScreenNavigation.Movies.route) }) {
-                Icon(Icons.Filled.Home, contentDescription = "Movies")
-            }
-            IconButton(onClick = { navController.navigate(ScreenNavigation.Search.route) }) {
-                Icon(Icons.Filled.Search, contentDescription = "Search")
-            }
-            IconButton(onClick = { navController.navigate(ScreenNavigation.FavoritesMovies.route) }) {
-                Icon(Icons.Filled.Favorite, contentDescription = "Favorites")
-            }
-        }
+        BottomNavBar(navController = navController)
     }) { innerPadding ->
         NavHost(
             navController = navController,
