@@ -3,10 +3,8 @@ package com.example.beca_android_finalproject.presentation.features.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.beca_android_finalproject.domain.usecase.SearchMoviesUseCase
-import com.example.beca_android_finalproject.domain.usecase.ToggleFavoriteUseCase
-import com.example.beca_android_finalproject.presentation.uimodel.MoviesUiEvent
 import com.example.beca_android_finalproject.presentation.uimodel.MoviesUiState
-import com.example.beca_android_finalproject.presentation.uimodel.SearchUiEvent
+import com.example.beca_android_finalproject.presentation.uimodel.uievents.SearchUiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

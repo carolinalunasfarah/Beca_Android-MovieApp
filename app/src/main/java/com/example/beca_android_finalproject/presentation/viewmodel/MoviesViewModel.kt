@@ -1,13 +1,11 @@
 package com.example.beca_android_finalproject.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.beca_android_finalproject.domain.usecase.GetMoviesDetailsUseCase
 import com.example.beca_android_finalproject.domain.usecase.GetPopularMoviesUseCase
-import com.example.beca_android_finalproject.domain.usecase.SearchMoviesUseCase
 import com.example.beca_android_finalproject.domain.usecase.ToggleFavoriteUseCase
-import com.example.beca_android_finalproject.presentation.uimodel.MoviesUiEvent
+import com.example.beca_android_finalproject.presentation.uimodel.uievents.MoviesUiEvent
 import com.example.beca_android_finalproject.presentation.uimodel.MoviesUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
