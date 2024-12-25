@@ -2,23 +2,18 @@ package com.example.beca_android_finalproject.presentation.features.movies
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.beca_android_finalproject.domain.model.Movie
-import com.example.beca_android_finalproject.presentation.features.details.composables.ErrorMessage
-import com.example.beca_android_finalproject.presentation.features.details.composables.LoadingIndicator
-import com.example.beca_android_finalproject.presentation.features.movies.composables.MovieCard
+import com.example.beca_android_finalproject.presentation.features.composables.ErrorMessage
+import com.example.beca_android_finalproject.presentation.features.composables.LoadingIndicator
+import com.example.beca_android_finalproject.presentation.features.components.MovieCard
 import com.example.beca_android_finalproject.presentation.uimodel.MoviesUiEvent
 import com.example.beca_android_finalproject.presentation.viewmodel.MoviesViewModel
 

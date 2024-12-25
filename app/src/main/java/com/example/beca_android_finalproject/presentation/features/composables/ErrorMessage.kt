@@ -1,4 +1,4 @@
-package com.example.beca_android_finalproject.presentation.features.details.composables
+package com.example.beca_android_finalproject.presentation.features.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

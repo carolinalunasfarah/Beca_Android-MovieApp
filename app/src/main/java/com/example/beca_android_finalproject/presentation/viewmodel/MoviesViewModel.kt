@@ -21,7 +21,7 @@ class MoviesViewModel @Inject constructor(
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
     private val getMovieDetailsUseCase: GetMoviesDetailsUseCase,
-    private val searchMovieUseCase: SearchMoviesUseCase
+    //private val searchMovieUseCase: SearchMoviesUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MoviesUiState())
     val uiState = _uiState.asStateFlow()
@@ -35,7 +35,7 @@ class MoviesViewModel @Inject constructor(
     fun onEvent(event: MoviesUiEvent) {
         when (event) {
             is MoviesUiEvent.ToggleFavorite -> toggleFavorite(event.movieId)
-            is MoviesUiEvent.SearchMovies -> searchMovies(event.query, event.page)
+            //is MoviesUiEvent.SearchMovies -> searchMovies(event.query, event.page)
             is MoviesUiEvent.LoadMore -> loadMovies()
             is MoviesUiEvent.MovieDetails -> loadMovieDetails(event.movieId)
         }
@@ -48,8 +48,6 @@ class MoviesViewModel @Inject constructor(
             try {
                 getPopularMoviesUseCase(currentPage)
                     .collect { movies ->
-                        Log.d("MoviesViewModel", "Movies: $movies")
-                        Log.d("MoviesViewModel", "Requesting page: $currentPage")
                         _uiState.update {
                             it.copy(
                                 movies = movies,
@@ -80,7 +78,7 @@ class MoviesViewModel @Inject constructor(
         }
     }
 
-    private fun searchMovies(query: String, page: Int) {
+    /*private fun searchMovies(query: String, page: Int) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
 
@@ -99,7 +97,7 @@ class MoviesViewModel @Inject constructor(
                 _uiState.update { it.copy(error = e.message, isLoading = false) }
             }
         }
-    }
+    }*/
 
     private fun loadMovieDetails(movieId: Int) {
         viewModelScope.launch {

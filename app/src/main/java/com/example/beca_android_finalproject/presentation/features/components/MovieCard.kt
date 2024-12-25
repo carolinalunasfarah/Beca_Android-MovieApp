@@ -1,4 +1,4 @@
-package com.example.beca_android_finalproject.presentation.features.movies.composables
+package com.example.beca_android_finalproject.presentation.features.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
