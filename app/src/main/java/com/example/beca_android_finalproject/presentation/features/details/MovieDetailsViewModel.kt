@@ -32,17 +32,21 @@ class MovieDetailsViewModel @Inject constructor(
 
             try {
                 getMovieDetailsUseCase(movieId)
-                    .collect {
+                    .collect { movieDetails ->
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
-                                error = null
+                                error = null,
+                                movies = listOf(movieDetails)
                             )
                         }
                     }
             } catch (e: Exception) {
-                _uiState.update { it.copy(error = e.message, isLoading = false) }
+                _uiState.update {
+                    it.copy(error = e.message, isLoading = false)
+                }
             }
         }
+
     }
 }

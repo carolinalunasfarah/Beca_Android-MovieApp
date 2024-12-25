@@ -10,7 +10,7 @@ data class MovieDto(
     @Json(name = "backdrop_path")
     val backdropPath: String?,
     @Json(name = "genre_ids")
-    val genreIds: List<Int>,
+    val genreIds: List<Int>?,
     @Json(name = "id")
     val id: Int,
     @Json(name = "original_language")
