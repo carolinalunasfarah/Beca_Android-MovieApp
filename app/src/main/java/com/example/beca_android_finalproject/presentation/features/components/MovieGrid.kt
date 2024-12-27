@@ -33,7 +33,7 @@ fun MovieGrid(
                 MovieCard(
                     movie = movie,
                     onClick = { onMovieClick(movie.id) },
-                    onFavoriteClick = { onFavoriteClick(movie.id) }
+                    onFavoriteClick = onFavoriteClick
                 )
             }
 

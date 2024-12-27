@@ -5,4 +5,5 @@ sealed class MoviesUiEvent {
    // data class SearchMovies(val query: String, val page: Int) : MoviesUiEvent()
    // data class MovieDetails(val movieId: Int) : MoviesUiEvent()
     data object LoadMore : MoviesUiEvent()
+    data object GetFavorites : MoviesUiEvent()
 }

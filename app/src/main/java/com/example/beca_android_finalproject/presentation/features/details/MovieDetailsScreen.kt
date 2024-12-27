@@ -25,9 +25,45 @@ import com.example.beca_android_finalproject.presentation.viewmodel.MoviesViewMo
 
 @Composable
 fun MovieDetailsScreen(
+    viewModelFavorite: MoviesViewModel = hiltViewModel(),
+    movieId: Int
+) {
+    val uiState by viewModelFavorite.uiState.collectAsState()
+    val movie = uiState.movies.firstOrNull { it.id == movieId }
+
+    if (movie != null) {
+        Card(
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Column {
+                Text(movie.title)
+                Spacer(modifier = Modifier.padding(16.dp))
+                AsyncImage(
+                    model = movie.poster,
+                    contentDescription = null
+                )
+                Spacer(modifier = Modifier.padding(16.dp))
+                Text(movie.overview)
+                Spacer(modifier = Modifier.padding(16.dp))
+                IconButton(onClick = {
+                    viewModelFavorite.toggleFavorite(movie.id)
+                }) {
+                    val favoriteIcon = if (movie.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder
+                    Icon(imageVector = favoriteIcon, contentDescription = "Favorite")
+                }
+            }
+        }
+    }
+}
+/*
+
+
+@Composable
+fun MovieDetailsScreen(
     viewModel: MovieDetailsViewModel = hiltViewModel(),
     viewModelFavorite : MoviesViewModel = hiltViewModel(),
     movieId: Int,
+
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -73,4 +109,4 @@ fun MovieDetailsScreen(
             }
         }
     }
-}
+}*/

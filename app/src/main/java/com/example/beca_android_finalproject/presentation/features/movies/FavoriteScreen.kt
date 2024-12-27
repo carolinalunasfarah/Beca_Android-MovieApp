@@ -15,23 +15,23 @@ import com.example.beca_android_finalproject.presentation.viewmodel.MoviesViewMo
 @Composable
 fun FavoritesScreen(
     viewModel: MoviesViewModel = hiltViewModel(),
+    //onFavoriteClick: (Int) -> Unit,
     onMovieClick: (Int) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val favoriteMovies by viewModel.favoriteMovies.collectAsState()
 
     Column {
         when {
-            uiState.isLoading && uiState.movies.isEmpty() -> {
+            uiState.isLoading && favoriteMovies.isEmpty() -> {
                 LoadingIndicator()
             }
-            uiState.error != null && uiState.movies.isEmpty() -> {
+            uiState.error != null && favoriteMovies.isEmpty() -> {
                 ErrorMessage(
                     message = "error"
                 )
             }
             else -> {
-                val favoriteMovies = viewModel.getFavoriteMovies()
-
                 if (favoriteMovies.isEmpty()) {
                     Text("You have no favorite movies (yet).")
                 } else {
@@ -41,6 +41,7 @@ fun FavoritesScreen(
                         onFavoriteClick = { movieId ->
                             viewModel.onEvent(MoviesUiEvent.ToggleFavorite(movieId))
                         },
+                        //onFavoriteClick = onFavoriteClick,
                         onLoadMore = {},
                         isLoading = false,
                         errorMessage = "",

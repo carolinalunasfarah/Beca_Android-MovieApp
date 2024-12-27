@@ -23,7 +23,7 @@ import com.example.beca_android_finalproject.presentation.viewmodel.MoviesViewMo
 fun AppNavigation(navController: NavHostController) {
     val moviesViewModel = hiltViewModel<MoviesViewModel>()
     val searchViewModel = hiltViewModel<SearchViewModel>()
-    val detailsViewModel = hiltViewModel<MovieDetailsViewModel>()
+    //val detailsViewModel = hiltViewModel<MovieDetailsViewModel>()
 
     Scaffold(bottomBar = {
         BottomNavBar(navController = navController)
@@ -49,11 +49,25 @@ fun AppNavigation(navController: NavHostController) {
                 })
             }
 
+            /*composable(ScreenNavigation.FavoritesMovies.route) {
+                FavoritesScreen(
+                    viewModel = moviesViewModel, onMovieClick = { movieId ->
+                        navController.navigate(
+                            ScreenNavigation.MovieDetails(movieId).createRoute(movieId)
+                        )
+                    },
+                    onFavoriteClick = { movieId ->
+                        moviesViewModel.toggleFavorite(movieId)
+                    }
+                )
+            }*/
+
             composable(ScreenNavigation.FavoritesMovies.route) {
                 FavoritesScreen(viewModel = moviesViewModel, onMovieClick = { movieId ->
                     navController.navigate(ScreenNavigation.MovieDetails(movieId).createRoute(movieId))
                 })
             }
+
 
             composable(
                 route = ScreenNavigation.MovieDetails("{movieId}").route,
@@ -62,7 +76,6 @@ fun AppNavigation(navController: NavHostController) {
                 val movieId = backStackEntry.arguments?.getInt("movieId") ?: 0
                 MovieDetailsScreen(
                     movieId = movieId,
-                    viewModel = detailsViewModel,
                     viewModelFavorite = moviesViewModel
                 )
             }
