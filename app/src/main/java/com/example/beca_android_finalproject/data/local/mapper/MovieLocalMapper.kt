@@ -10,7 +10,8 @@ class MovieLocalMapper @Inject constructor () {
             id = entity.id,
             overview = entity.overview,
             poster = entity.posterPath ?: "",
-            title = entity.title
+            title = entity.title,
+            isFavorite = entity.isFavorite
         )
 
     fun toEntity(domain: Movie): MovieEntity =
@@ -18,7 +19,8 @@ class MovieLocalMapper @Inject constructor () {
             id = domain.id,
             overview = domain.overview,
             posterPath = domain.poster ?: "",
-            title = domain.title
+            title = domain.title,
+            isFavorite = domain.isFavorite
         )
 
     fun toDomainList(entities: List<MovieEntity>): List<Movie> {

@@ -3,6 +3,7 @@ package com.example.beca_android_finalproject.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.beca_android_finalproject.domain.model.Movie
+import com.example.beca_android_finalproject.domain.usecase.GetFavoritesUseCase
 import com.example.beca_android_finalproject.domain.usecase.GetMoviesDetailsUseCase
 import com.example.beca_android_finalproject.domain.usecase.GetPopularMoviesUseCase
 import com.example.beca_android_finalproject.domain.usecase.ToggleFavoriteUseCase
@@ -11,6 +12,7 @@ import com.example.beca_android_finalproject.presentation.uimodel.MoviesUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,9 +21,11 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
-    //private val getMovieDetailsUseCase: GetMoviesDetailsUseCase,
-    //private val searchMovieUseCase: SearchMoviesUseCase
+    private val getFavoritesUseCase: GetFavoritesUseCase
 ) : ViewModel() {
+
+    private val _favoriteMovies = MutableStateFlow<List<Movie>>(emptyList())
+    val favoriteMovies = _favoriteMovies.asStateFlow()
 
     private val _uiState = MutableStateFlow(MoviesUiState())
     val uiState = _uiState.asStateFlow()
@@ -30,14 +34,14 @@ class MoviesViewModel @Inject constructor(
 
     init {
         loadMovies()
+        loadFavoriteMovies()
     }
 
     fun onEvent(event: MoviesUiEvent) {
         when (event) {
             is MoviesUiEvent.ToggleFavorite -> toggleFavorite(event.movieId)
-            //is MoviesUiEvent.SearchMovies -> searchMovies(event.query, event.page)
             is MoviesUiEvent.LoadMore -> loadMovies()
-            //is MoviesUiEvent.MovieDetails -> loadMovieDetails(event.movieId)
+            is MoviesUiEvent.GetFavorites -> loadFavoriteMovies()
         }
     }
 
@@ -68,10 +72,16 @@ class MoviesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 toggleFavoriteUseCase(movieId)
+
                 val updatedMovies = _uiState.value.movies.map { movie ->
-                    if (movie.id == movieId) movie.copy(isFavorite = !movie.isFavorite) else movie
+                    if (movie.id == movieId) {
+                        movie.copy(isFavorite = !movie.isFavorite)
+                    } else {
+                        movie
+                    }
                 }
                 _uiState.update { it.copy(movies = updatedMovies) }
+
             } catch (e: Exception) {
                 _uiState.update { it.copy(error = e.message) }
             }
@@ -80,5 +90,17 @@ class MoviesViewModel @Inject constructor(
 
     fun getFavoriteMovies(): List<Movie> {
         return _uiState.value.movies.filter { it.isFavorite }
+    }
+
+    private fun loadFavoriteMovies() {
+        viewModelScope.launch {
+            try {
+                getFavoritesUseCase().collect { movies ->
+                    _favoriteMovies.value = movies
+                }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(error = e.message) }
+            }
+        }
     }
 }

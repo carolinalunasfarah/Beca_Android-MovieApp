@@ -1,25 +1,24 @@
 package com.example.beca_android_finalproject.data.repository
 
-import android.util.Log
 import com.example.beca_android_finalproject.data.local.datasource.LocalDataSource
 import com.example.beca_android_finalproject.data.local.mapper.MovieLocalMapper
-import com.example.beca_android_finalproject.data.remote.api.MovieApi
 import com.example.beca_android_finalproject.data.remote.api.mapper.MovieRemoteMapper
 import com.example.beca_android_finalproject.data.remote.datasource.RemoteDataSource
 import com.example.beca_android_finalproject.domain.model.Movie
 import com.example.beca_android_finalproject.domain.repository.MovieRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
-    private val movieApi: MovieApi,
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val movieRemoteMapper: MovieRemoteMapper,
@@ -27,7 +26,7 @@ class MovieRepositoryImpl @Inject constructor(
     private val dispatcher: CoroutineDispatcher
 ) : MovieRepository {
 
-    override fun getPopularMovies(page: Int): Flow<List<Movie>> = flow {
+    /*override fun getPopularMovies(page: Int): Flow<List<Movie>> = flow {
         val localMovies = localDataSource.getFavorites().first()
         emit(movieLocalMapper.toDomainList(localMovies))
 
@@ -40,7 +39,52 @@ class MovieRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             throw e
         }
+    }.flowOn(dispatcher)*/
+
+   /* override fun getPopularMovies(page: Int): Flow<List<Movie>> = flow {
+        val localFavoritesFlow = localDataSource.getFavorites()
+
+        try {
+            val remoteMovies = remoteDataSource.getPopularMovies(page).movies
+            val moviesEntities = remoteMovies.map { movieRemoteMapper.toEntity(it) }
+            localDataSource.insertMovies(moviesEntities)
+
+            emitAll(
+                combine(
+                    flowOf(movieRemoteMapper.toDomainList(remoteMovies)),
+                localFavoritesFlow
+            ) { remoteMovies, localFavorites ->
+                remoteMovies.map { remoteMovie ->
+                    val isFavorite = localFavorites.any { it.id == remoteMovie.id }
+                    remoteMovie.copy(isFavorite = isFavorite)
+                }
+            })
+        } catch (e: Exception) {
+            throw e
+        }
+    }.flowOn(dispatcher)*/
+
+    override fun getPopularMovies(page: Int): Flow<List<Movie>> = flow {
+        val localFavorites = localDataSource.getFavorites().first()
+
+        try {
+            val remoteMovies = remoteDataSource.getPopularMovies(page).movies
+            val moviesEntities = remoteMovies.map { movieRemoteMapper.toEntity(it) }
+
+            val syncedMovies = moviesEntities.map { movieEntity ->
+                movieEntity.copy(
+                    isFavorite = localFavorites.any { it.id == movieEntity.id }
+                )
+            }
+
+            localDataSource.insertMovies(syncedMovies)
+
+            emit(movieRemoteMapper.toDomainList(remoteMovies))
+        } catch (e: Exception) {
+            throw e
+        }
     }.flowOn(dispatcher)
+
 
 
     override suspend fun searchMovies(query: String, page: Int): Flow<List<Movie>> = flow {
@@ -65,10 +109,15 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun toggleFavorite(movieId: Int) {
         withContext(dispatcher) {
-            val isFavorite = localDataSource.isFavorite(movieId).first()
-            localDataSource.updateFavorite(movieId, !isFavorite)
+            try {
+                val isFavorite = localDataSource.isFavorite(movieId).first()
+                localDataSource.updateFavorite(movieId, !isFavorite)
+            } catch (e: Exception) {
+                throw e
+            }
         }
     }
+
 
     override suspend fun getFavorites(): Flow<List<Movie>> = flow {
         emitAll(localDataSource.getFavorites().map { entities ->
