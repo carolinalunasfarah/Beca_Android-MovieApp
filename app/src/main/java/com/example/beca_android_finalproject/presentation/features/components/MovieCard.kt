@@ -70,16 +70,15 @@ fun MovieCard(
                     .fillMaxWidth()
             )
 
-            Row (
+            Row(
                 modifier = Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Text(
-                    text = "Add as favorite",
+                    text = if (movie.isFavorite) "Remove favorite" else "Add favorite",
                     style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier
-                        .padding(8.dp),
+                    modifier = Modifier,
                     textAlign = TextAlign.Center
                 )
                 IconButton(

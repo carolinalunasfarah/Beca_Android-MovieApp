@@ -43,44 +43,6 @@ fun MoviesScreen(
         }
     }
 }
-/*
-
-
-@Composable
-fun MoviesScreen(
-    viewModel: MoviesViewModel = hiltViewModel(),
-    onMovieClick: (Int) -> Unit
-) {
-    val uiState by viewModel.uiState.collectAsState()
-
-    Column {
-        when {
-            uiState.isLoading && uiState.movies.isEmpty() -> {
-                LoadingIndicator()
-            }
-            uiState.error != null && uiState.movies.isEmpty() -> {
-                ErrorMessage(
-                    message = "error"
-                )
-            }
-            else -> {
-                MovieGrid(
-                    movies = uiState.movies,
-                    onMovieClick = onMovieClick,
-                    onFavoriteClick = { movieId ->
-                        viewModel.onEvent(MoviesUiEvent.ToggleFavorite(movieId))
-                    },
-                    onLoadMore = {
-                        viewModel.onEvent(MoviesUiEvent.LoadMore)
-                    },
-                    isLoading = false,
-                    errorMessage = "",
-                )
-            }
-        }
-    }
-}*/
-
 
 @Composable
 fun LoadMoreButton(onClick: () -> Unit) {

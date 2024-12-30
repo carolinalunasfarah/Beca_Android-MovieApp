@@ -2,7 +2,7 @@ package com.example.beca_android_finalproject.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Light Theme Colors
+// Primary Theme Colors
 val Primary = Color(0xFF493566) // Color principal (botones, encabezados)
 val OnPrimary = Color(0xFFFFFFFF) // Color del texto o íconos sobre el color principal
 val Secondary = Color(0xFF833939) // Color secundario (botones secundarios, chips)

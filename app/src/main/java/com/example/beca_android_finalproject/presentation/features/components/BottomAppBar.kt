@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.beca_android_finalproject.presentation.navigation.ScreenNavigation
-import com.example.beca_android_finalproject.ui.theme.OnSurface
 import com.example.beca_android_finalproject.ui.theme.Secondary
 import com.example.beca_android_finalproject.ui.theme.Surface
 
