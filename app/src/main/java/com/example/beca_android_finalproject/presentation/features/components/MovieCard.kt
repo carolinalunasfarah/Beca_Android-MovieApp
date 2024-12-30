@@ -86,7 +86,8 @@ fun MovieCard(
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                 ) {
-                    val favoriteIcon = if (movie.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder
+                    val favoriteIcon =
+                        if (movie.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder
                     Icon(
                         imageVector = favoriteIcon,
                         contentDescription = "Favorite",

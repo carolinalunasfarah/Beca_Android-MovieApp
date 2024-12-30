@@ -16,7 +16,7 @@ import com.example.beca_android_finalproject.ui.theme.Background
 
 @Composable
 fun LoadingIndicator() {
-    Column (
+    Column(
         modifier = Modifier
             .background(Background)
             .fillMaxSize(),
@@ -24,10 +24,11 @@ fun LoadingIndicator() {
         verticalArrangement = Arrangement.Center
     ) {
         CircularProgressIndicator(
-        modifier = Modifier
-            .padding(16.dp),
-        color = MaterialTheme.colorScheme.primary
-    )}
+            modifier = Modifier
+                .padding(16.dp),
+            color = MaterialTheme.colorScheme.primary
+        )
+    }
 
 }
 

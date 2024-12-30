@@ -23,9 +23,11 @@ fun MoviesScreen(
             uiState.isLoading && uiState.movies.isEmpty() -> {
                 LoadingIndicator()
             }
+
             uiState.error != null && uiState.movies.isEmpty() -> {
-                ErrorMessage(message = "error")
+                ErrorMessage(message = "Error loading movies: ${uiState.error}")
             }
+
             else -> {
                 MovieGrid(
                     movies = uiState.movies,

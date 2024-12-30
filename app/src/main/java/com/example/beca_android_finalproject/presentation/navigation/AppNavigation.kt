@@ -38,7 +38,8 @@ fun AppNavigation(navController: NavHostController) {
         NavHost(
             navController = navController,
             startDestination = ScreenNavigation.Movies.route,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier
+                .padding(innerPadding)
                 .background(Background)
         ) {
             composable(ScreenNavigation.Movies.route) {

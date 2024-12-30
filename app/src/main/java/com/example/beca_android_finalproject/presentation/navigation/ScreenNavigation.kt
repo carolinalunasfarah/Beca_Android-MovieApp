@@ -8,8 +8,9 @@ sealed class ScreenNavigation(val route: String) {
 
     data class MovieDetails(val movieId: Int) : ScreenNavigation("details/{movieId}") {
         constructor(movieId: String) : this(movieId.toIntOrNull() ?: 0)
+
         fun createRoute(movieId: Int) = "details/$movieId"
     }
 
-    data object FavoritesMovies: ScreenNavigation("favorites")
+    data object FavoritesMovies : ScreenNavigation("favorites")
 }

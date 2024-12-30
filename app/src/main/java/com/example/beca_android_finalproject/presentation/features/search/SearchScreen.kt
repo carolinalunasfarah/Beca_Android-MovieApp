@@ -53,7 +53,7 @@ fun SearchScreen(
 
             uiState.error != null -> {
                 ErrorMessage(
-                    message = "error"
+                    message = "Error loading movies: ${uiState.error}"
                 )
             }
 

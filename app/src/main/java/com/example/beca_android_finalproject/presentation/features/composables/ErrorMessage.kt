@@ -1,15 +1,17 @@
 package com.example.beca_android_finalproject.presentation.features.composables
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
+import android.widget.Toast
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
+
 
 @Composable
 fun ErrorMessage(message: String) {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = "Error: $message")
-    }
+    ShowToast(message)
+}
+
+@Composable
+fun ShowToast(message: String) {
+    val context = LocalContext.current
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }

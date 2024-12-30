@@ -20,7 +20,6 @@ import com.example.beca_android_finalproject.presentation.features.composables.L
 import com.example.beca_android_finalproject.presentation.uimodel.uievents.MoviesUiEvent
 import com.example.beca_android_finalproject.presentation.viewmodel.MoviesViewModel
 import com.example.beca_android_finalproject.ui.theme.OnPrimary
-import com.example.beca_android_finalproject.ui.theme.OnSecondary
 import com.example.beca_android_finalproject.ui.theme.Secondary
 import com.example.beca_android_finalproject.ui.theme.Surface
 
@@ -41,11 +40,13 @@ fun FavoritesScreen(
             uiState.isLoading && favoriteMovies.isEmpty() -> {
                 LoadingIndicator()
             }
+
             uiState.error != null && favoriteMovies.isEmpty() -> {
                 ErrorMessage(
-                    message = "error"
+                    message = "Error getting favorite movies: ${uiState.error}"
                 )
             }
+
             else -> {
                 if (favoriteMovies.isEmpty()) {
                     Column(
@@ -62,7 +63,7 @@ fun FavoritesScreen(
 
                         Button(
                             onClick = onExploreMoviesClick,
-                            colors = ButtonDefaults.buttonColors (
+                            colors = ButtonDefaults.buttonColors(
                                 containerColor = Surface,
                                 contentColor = Secondary
                             )
