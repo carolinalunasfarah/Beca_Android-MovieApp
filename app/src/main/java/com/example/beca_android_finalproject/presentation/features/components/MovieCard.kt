@@ -26,11 +26,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.beca_android_finalproject.domain.model.Movie
-import com.example.beca_android_finalproject.ui.theme.LightBackground
-import com.example.beca_android_finalproject.ui.theme.LightOnBackground
-import com.example.beca_android_finalproject.ui.theme.LightOnSurface
-import com.example.beca_android_finalproject.ui.theme.LightPrimary
-import com.example.beca_android_finalproject.ui.theme.LightSurface
+import com.example.beca_android_finalproject.ui.theme.OnSurface
+import com.example.beca_android_finalproject.ui.theme.Secondary
+import com.example.beca_android_finalproject.ui.theme.Surface
 
 @Composable
 fun MovieCard(
@@ -40,8 +38,8 @@ fun MovieCard(
 ) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = LightSurface,
-            contentColor = LightOnSurface,
+            containerColor = Surface,
+            contentColor = OnSurface,
         ),
         modifier = Modifier
             .padding(8.dp)
@@ -93,7 +91,7 @@ fun MovieCard(
                     Icon(
                         imageVector = favoriteIcon,
                         contentDescription = "Favorite",
-                        tint = if (movie.isFavorite) LightOnBackground else LightOnSurface,
+                        tint = if (movie.isFavorite) Secondary else OnSurface,
                         modifier = Modifier.size(25.dp)
                     )
                 }
@@ -101,33 +99,3 @@ fun MovieCard(
         }
     }
 }
-
-/*@Composable
-fun MovieCard(
-    viewModel: MoviesViewModel = hiltViewModel(),
-    movie: Movie,
-    onClick: () -> Unit,
-    onFavoriteClick: (Int) -> Unit
-) {
-    val uiState by viewModel.uiState.collectAsState()
-
-    Card(
-        modifier = Modifier
-            .padding(8.dp)
-            .clickable { onClick() }
-    ) {
-        Column {
-            Text(movie.title)
-            Spacer(modifier = Modifier.padding(16.dp))
-            AsyncImage(
-                model = movie.poster,
-                contentDescription = null
-            )
-            Spacer(modifier = Modifier.padding(16.dp))
-            IconButton(onClick = { onFavoriteClick(movie.id) }) {
-                val favoriteIcon = if (movie.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder
-                Icon(imageVector = favoriteIcon, contentDescription = "Favorite")
-            }
-        }
-    }
-}*/

@@ -1,7 +1,6 @@
 package com.example.beca_android_finalproject.presentation.navigation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -15,14 +14,13 @@ import androidx.navigation.navArgument
 import com.example.beca_android_finalproject.presentation.features.components.BottomNavBar
 import com.example.beca_android_finalproject.presentation.features.components.TopNavBar
 import com.example.beca_android_finalproject.presentation.features.details.MovieDetailsScreen
-import com.example.beca_android_finalproject.presentation.features.details.MovieDetailsViewModel
+import com.example.beca_android_finalproject.presentation.features.movies.FavoritesScreen
 import com.example.beca_android_finalproject.presentation.features.movies.MoviesScreen
 import com.example.beca_android_finalproject.presentation.features.search.SearchScreen
 import com.example.beca_android_finalproject.presentation.features.search.SearchViewModel
-import com.example.beca_android_finalproject.presentation.features.movies.FavoritesScreen
 import com.example.beca_android_finalproject.presentation.viewmodel.MoviesViewModel
-import com.example.beca_android_finalproject.ui.theme.LightBackground
-import com.example.beca_android_finalproject.ui.theme.LightOnBackground
+
+import com.example.beca_android_finalproject.ui.theme.Background
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
@@ -37,13 +35,12 @@ fun AppNavigation(navController: NavHostController) {
         bottomBar = {
             BottomNavBar(navController = navController)
         },
-        modifier = Modifier
-            .background(LightOnBackground)
     ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = ScreenNavigation.Movies.route,
             modifier = Modifier.padding(innerPadding)
+                .background(Background)
         ) {
             composable(ScreenNavigation.Movies.route) {
                 MoviesScreen(viewModel = moviesViewModel, onMovieClick = { movieId ->

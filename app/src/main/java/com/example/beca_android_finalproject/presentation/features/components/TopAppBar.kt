@@ -8,14 +8,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.beca_android_finalproject.ui.theme.LightPrimary
-import com.example.beca_android_finalproject.ui.theme.LightSecondary
+import com.example.beca_android_finalproject.ui.theme.OnSurface
+import com.example.beca_android_finalproject.ui.theme.Secondary
+import com.example.beca_android_finalproject.ui.theme.Surface
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopNavBar(
-    containerColor: Color = LightPrimary,
-    contentColor: Color = LightSecondary,
+    containerColor: Color = Surface,
+    contentColor: Color = Secondary,
     modifier: Modifier = Modifier
         .height(50.dp)
 ) {

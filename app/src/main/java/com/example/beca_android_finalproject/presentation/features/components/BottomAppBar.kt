@@ -18,13 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.beca_android_finalproject.presentation.navigation.ScreenNavigation
-import com.example.beca_android_finalproject.ui.theme.LightPrimary
-import com.example.beca_android_finalproject.ui.theme.LightSecondary
+import com.example.beca_android_finalproject.ui.theme.OnSurface
+import com.example.beca_android_finalproject.ui.theme.Secondary
+import com.example.beca_android_finalproject.ui.theme.Surface
 
 @Composable
 fun BottomNavBar(navController: NavHostController) {
     BottomAppBar(
-        containerColor = LightPrimary,
+        containerColor = Surface,
         modifier = Modifier
             .height(50.dp)
     ) {
@@ -38,7 +39,7 @@ fun BottomNavBar(navController: NavHostController) {
                 Icon(
                     Icons.Filled.Home,
                     contentDescription = "Movies",
-                    tint = LightSecondary,
+                    tint = Secondary,
                     modifier = Modifier
                         .size(30.dp)
                 )
@@ -47,7 +48,7 @@ fun BottomNavBar(navController: NavHostController) {
                 Icon(
                     Icons.Filled.Search,
                     contentDescription = "Search",
-                    tint = LightSecondary,
+                    tint = Secondary,
                     modifier = Modifier
                         .size(30.dp)
                 )
@@ -56,7 +57,7 @@ fun BottomNavBar(navController: NavHostController) {
                 Icon(
                     Icons.Filled.Favorite,
                     contentDescription = "Favorites",
-                    tint = LightSecondary,
+                    tint = Secondary,
                     modifier = Modifier
                         .size(30.dp)
                 )
