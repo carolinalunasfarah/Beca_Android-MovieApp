@@ -9,7 +9,7 @@ class MovieLocalMapper @Inject constructor () {
         Movie(
             id = entity.id,
             overview = entity.overview,
-            poster = entity.posterPath ?: "",
+            poster = "https://image.tmdb.org/t/p/w500/${entity.posterPath}",
             title = entity.title,
             isFavorite = entity.isFavorite
         )

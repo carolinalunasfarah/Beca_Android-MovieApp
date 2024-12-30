@@ -1,10 +1,12 @@
 package com.example.beca_android_finalproject.presentation.features.movies
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.beca_android_finalproject.presentation.features.components.MovieGrid
 import com.example.beca_android_finalproject.presentation.features.composables.ErrorMessage
@@ -21,7 +23,10 @@ fun FavoritesScreen(
     val uiState by viewModel.uiState.collectAsState()
     val favoriteMovies by viewModel.favoriteMovies.collectAsState()
 
-    Column {
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+    ){
         when {
             uiState.isLoading && favoriteMovies.isEmpty() -> {
                 LoadingIndicator()

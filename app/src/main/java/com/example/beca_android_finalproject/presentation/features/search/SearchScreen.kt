@@ -15,6 +15,7 @@ import com.example.beca_android_finalproject.presentation.features.composables.L
 import com.example.beca_android_finalproject.presentation.uimodel.uievents.MoviesUiEvent
 import com.example.beca_android_finalproject.presentation.uimodel.uievents.SearchUiEvent
 import com.example.beca_android_finalproject.presentation.viewmodel.MoviesViewModel
+import com.example.beca_android_finalproject.ui.theme.OnPrimary
 
 @Composable
 fun SearchScreen(
@@ -38,6 +39,7 @@ fun SearchScreen(
                 viewModel.onEvent(SearchUiEvent.SearchMovies(query, 1))
             },
             placeholder = { Text("Search movies...") },
+            shape = MaterialTheme.shapes.medium,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -59,7 +61,8 @@ fun SearchScreen(
                 Text(
                     text = "Type something to search",
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    color = OnPrimary,
                 )
             }
 
