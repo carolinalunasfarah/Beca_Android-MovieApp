@@ -105,6 +105,24 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // For Unit Testing
+    testImplementation ("org.jetbrains.kotlin:kotlin-test")
+
+    // Mockk
+    testImplementation ("io.mockk:mockk-android:1.13.13")
+    testImplementation ("io.mockk:mockk-agent:1.13.13")
+    testImplementation ("io.mockk:mockk:1.13.13")
+    androidTestImplementation ("io.mockk:mockk-android:1.13.13")
+    androidTestImplementation ("io.mockk:mockk-android:1.13.13")
+    androidTestImplementation ("io.mockk:mockk-agent:1.13.13")
+
+    // For Room Database Tests
+    testImplementation ("androidx.room:room-testing:2.6.1")
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+    testImplementation("androidx.test:core:1.6.1")
+    testImplementation("androidx.test:runner:1.5.2")
 }
 
 kapt {
