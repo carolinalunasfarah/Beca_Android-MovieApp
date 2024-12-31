@@ -28,9 +28,17 @@ fun SearchScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
+        Text(
+            text = "Search Movies",
+            style = MaterialTheme.typography.titleLarge,
+            color = OnPrimary,
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+        )
 
         TextField(
             value = query,
@@ -40,10 +48,12 @@ fun SearchScreen(
             },
             placeholder = { Text("Search movies...") },
             shape = MaterialTheme.shapes.medium,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
 
         when {

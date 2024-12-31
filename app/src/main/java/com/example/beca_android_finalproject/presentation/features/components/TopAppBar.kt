@@ -6,8 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.beca_android_finalproject.ui.theme.Secondary
 import com.example.beca_android_finalproject.ui.theme.Surface
 
@@ -17,10 +19,10 @@ fun TopNavBar(
     containerColor: Color = Surface,
     contentColor: Color = Secondary,
     modifier: Modifier = Modifier
-        .height(50.dp)
+        .height(60.dp)
 ) {
     TopAppBar(
-        title = { TopNavBarTitle("Movies App", contentColor) },
+        title = { TopNavBarTitle("Reel Scout", contentColor) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = containerColor,
             titleContentColor = contentColor
@@ -37,9 +39,10 @@ fun TopNavBarTitle(s: String, contentColor: Color) {
     ) {
         Text(
             text = s,
-            style = MaterialTheme.typography.titleLarge,
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold,
             color = contentColor,
-            modifier = Modifier.padding(top = 8.dp),
+            modifier = Modifier.padding(top = 10.dp),
             textAlign = TextAlign.Center
         )
     }

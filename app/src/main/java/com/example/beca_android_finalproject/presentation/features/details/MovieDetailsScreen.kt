@@ -95,10 +95,9 @@ fun MovieDetailsScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Add as favorite",
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier
-                            .padding(8.dp),
+                        text = if (movie.isFavorite) "Remove favorite" else "Add favorite",
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier,
                         textAlign = TextAlign.Center
                     )
                     IconButton(

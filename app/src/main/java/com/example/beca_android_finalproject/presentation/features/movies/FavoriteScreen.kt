@@ -34,8 +34,17 @@ fun FavoritesScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
+        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+        verticalArrangement = androidx.compose.foundation.layout.Arrangement.Top
     ) {
+        Text(
+            text = "Favorite Movies",
+            style = MaterialTheme.typography.titleLarge,
+            color = OnPrimary,
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            modifier = Modifier.padding(top = 16.dp)
+        )
         when {
             uiState.isLoading && favoriteMovies.isEmpty() -> {
                 LoadingIndicator()
