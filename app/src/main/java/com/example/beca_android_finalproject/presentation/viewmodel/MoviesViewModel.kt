@@ -8,6 +8,7 @@ import com.example.beca_android_finalproject.domain.usecase.GetPopularMoviesUseC
 import com.example.beca_android_finalproject.domain.usecase.ToggleFavoriteUseCase
 import com.example.beca_android_finalproject.presentation.uimodel.uievents.MoviesUiEvent
 import com.example.beca_android_finalproject.presentation.uimodel.MoviesUiState
+import com.example.beca_android_finalproject.utils.ConnectivityObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,8 +20,9 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
-    private val getFavoritesUseCase: GetFavoritesUseCase
-) : ViewModel() {
+    private val getFavoritesUseCase: GetFavoritesUseCase,
+    private val connectivityObserver: ConnectivityObserver
+    ) : ViewModel() {
 
     private val _favoriteMovies = MutableStateFlow<List<Movie>>(emptyList())
     val favoriteMovies = _favoriteMovies.asStateFlow()
@@ -28,11 +30,24 @@ class MoviesViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MoviesUiState())
     val uiState = _uiState.asStateFlow()
 
+    private val _isConnected = MutableStateFlow(true)
+    val isConnected = _isConnected.asStateFlow()
+
     private var currentPage = 1
 
     init {
-        loadMovies()
-        loadFavoriteMovies()
+        viewModelScope.launch {
+            connectivityObserver.isConnected.collect { isConnected ->
+                _isConnected.value = isConnected
+                if (!isConnected) {
+                    loadFavoriteMovies()
+                }
+                if (isConnected) {
+                    loadMovies()
+                    loadFavoriteMovies()
+                }
+            }
+        }
     }
 
     fun onEvent(event: MoviesUiEvent) {

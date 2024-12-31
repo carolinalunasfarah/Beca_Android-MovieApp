@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -43,11 +45,26 @@ fun AppNavigation(navController: NavHostController) {
                 .background(Background)
         ) {
             composable(ScreenNavigation.Movies.route) {
-                MoviesScreen(viewModel = moviesViewModel, onMovieClick = { movieId ->
-                    navController.navigate(
-                        ScreenNavigation.MovieDetails(movieId).createRoute(movieId)
+                val isConnected by moviesViewModel.isConnected.collectAsState()
+                if (isConnected) {
+                    MoviesScreen(viewModel = moviesViewModel, onMovieClick = { movieId ->
+                        navController.navigate(
+                            ScreenNavigation.MovieDetails(movieId).createRoute(movieId)
+                        )
+                    })
+                } else {
+                    FavoritesScreen(
+                        viewModel = moviesViewModel,
+                        onMovieClick = { movieId ->
+                            navController.navigate(
+                                ScreenNavigation.MovieDetails(movieId).createRoute(movieId)
+                            )
+                        },
+                        onExploreMoviesClick = {
+                            navController.navigate(ScreenNavigation.Movies.route)
+                        }
                     )
-                })
+                }
             }
 
             composable(ScreenNavigation.Search.route) {
