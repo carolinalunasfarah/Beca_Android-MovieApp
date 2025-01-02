@@ -16,7 +16,6 @@ import com.example.beca_android_finalproject.presentation.uimodel.uievents.Movie
 import com.example.beca_android_finalproject.presentation.uimodel.uievents.SearchUiEvent
 import com.example.beca_android_finalproject.presentation.viewmodel.MoviesViewModel
 import com.example.beca_android_finalproject.ui.theme.OnPrimary
-import com.example.beca_android_finalproject.ui.theme.OnSurface
 
 @Composable
 fun SearchScreen(
@@ -43,7 +42,7 @@ fun SearchScreen(
         Text(
             text = "Search Movies",
             style = MaterialTheme.typography.titleLarge,
-            color = OnSurface,
+            color = OnPrimary,
             textAlign = androidx.compose.ui.text.style.TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
@@ -62,7 +61,6 @@ fun SearchScreen(
         )
 
         Spacer(modifier = Modifier.height(8.dp))
-
 
         when {
             uiState.isLoading -> {
@@ -102,5 +100,3 @@ fun SearchScreen(
         }
     }
 }
-
-
