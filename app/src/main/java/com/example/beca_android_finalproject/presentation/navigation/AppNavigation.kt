@@ -57,7 +57,8 @@ fun AppNavigation(navController: NavHostController) {
                                 ScreenNavigation.MovieDetails(movieId).createRoute()
                             )
                         },
-                        isConnected = isConnected)
+                        isConnected = true
+                    )
                 } else {
                     FavoritesScreen(
                         viewModel = moviesViewModel,
@@ -69,7 +70,7 @@ fun AppNavigation(navController: NavHostController) {
                         onExploreMoviesClick = {
                             navController.navigate(ScreenNavigation.Movies.route)
                         },
-                        isConnected = isConnected
+                        isConnected = false
                     )
                 }
             }

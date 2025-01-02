@@ -25,6 +25,7 @@ fun SearchScreen(
     isConnected: Boolean
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val favoriteMovies by viewModelMovie.favoriteMovies.collectAsState()
     var query by remember { mutableStateOf("") }
 
     Column(
@@ -64,7 +65,7 @@ fun SearchScreen(
 
             uiState.error != null -> {
                 ErrorMessage(
-                    message = "Error loading movies: ${uiState.error}"
+                    message = "Error searching movies: ${uiState.error}"
                 )
             }
 
@@ -78,8 +79,13 @@ fun SearchScreen(
             }
 
             else -> {
+                val updatedMovies = uiState.movies.map { movie ->
+                    val isFavorite = favoriteMovies.any { it.id == movie.id }
+                    movie.copy(isFavorite = isFavorite)
+                }
+
                 MovieGrid(
-                    movies = uiState.movies,
+                    movies = updatedMovies,
                     onMovieClick = onMovieClick,
                     onFavoriteClick = { movieId ->
                         viewModelMovie.onEvent(MoviesUiEvent.ToggleFavorite(movieId))

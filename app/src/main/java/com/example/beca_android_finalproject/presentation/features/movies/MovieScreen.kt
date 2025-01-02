@@ -43,7 +43,7 @@ fun MoviesScreen(
             }
 
             uiState.error != null && uiState.movies.isEmpty() -> {
-                ErrorMessage(message = "Error loading movies: ${uiState.error}")
+                ErrorMessage(message = "Error loading popular movies: ${uiState.error}")
             }
 
             else -> {
