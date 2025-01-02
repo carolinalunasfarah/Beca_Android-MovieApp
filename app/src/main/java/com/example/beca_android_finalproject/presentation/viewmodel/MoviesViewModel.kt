@@ -63,23 +63,27 @@ class MoviesViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true) }
 
             try {
-                getPopularMoviesUseCase(currentPage)
-                    .collect { movies ->
-                        _uiState.update {
-                            it.copy(
-                                movies = movies,
-                                isLoading = false,
-                                error = null
-                            )
-                        }
+                getPopularMoviesUseCase(currentPage).collect { movies ->
+                    val favoriteIds = _favoriteMovies.value.map { it.id }.toSet()
+                    val updatedMovies = movies.map { movie ->
+                        movie.copy(isFavorite = favoriteIds.contains(movie.id))
                     }
+
+                    _uiState.update {
+                        it.copy(
+                            movies = updatedMovies,
+                            isLoading = false,
+                            error = null
+                        )
+                    }
+                }
                 currentPage++
             } catch (e: Exception) {
                 _uiState.update { it.copy(error = e.message, isLoading = false) }
-
             }
         }
     }
+
 
     fun toggleFavorite(movieId: Int) {
         viewModelScope.launch {
@@ -88,18 +92,25 @@ class MoviesViewModel @Inject constructor(
 
                 val updatedMovies = _uiState.value.movies.map { movie ->
                     if (movie.id == movieId) {
-                        movie.copy(isFavorite = !movie.isFavorite)
+                        val updatedMovie = movie.copy(isFavorite = !movie.isFavorite)
+                        if (updatedMovie.isFavorite) {
+                            _favoriteMovies.update { it + updatedMovie }
+                        } else {
+                            _favoriteMovies.update { it.filter { it.id != movieId } }
+                        }
+                        updatedMovie
                     } else {
                         movie
                     }
                 }
-                _uiState.update { it.copy(movies = updatedMovies) }
 
+                _uiState.update { it.copy(movies = updatedMovies) }
             } catch (e: Exception) {
                 _uiState.update { it.copy(error = e.message) }
             }
         }
     }
+
 
     fun getFavoriteMovies(): List<Movie> {
         return _uiState.value.movies.filter { it.isFavorite }

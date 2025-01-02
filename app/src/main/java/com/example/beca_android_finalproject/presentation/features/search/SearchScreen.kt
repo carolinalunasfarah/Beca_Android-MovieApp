@@ -21,7 +21,8 @@ import com.example.beca_android_finalproject.ui.theme.OnPrimary
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
     viewModelMovie: MoviesViewModel = hiltViewModel(),
-    onMovieClick: (Int) -> Unit
+    onMovieClick: (Int) -> Unit,
+    isConnected: Boolean
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var query by remember { mutableStateOf("") }
@@ -88,6 +89,7 @@ fun SearchScreen(
                     },
                     isLoading = false,
                     errorMessage = "",
+                    isConnected = isConnected,
                 )
             }
         }

@@ -20,7 +20,8 @@ import com.example.beca_android_finalproject.ui.theme.OnPrimary
 @Composable
 fun MoviesScreen(
     viewModel: MoviesViewModel = hiltViewModel(),
-    onMovieClick: (Int) -> Unit
+    onMovieClick: (Int) -> Unit,
+    isConnected: Boolean
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -57,6 +58,7 @@ fun MoviesScreen(
                     },
                     isLoading = false,
                     errorMessage = "",
+                    isConnected = isConnected,
                 )
             }
         }

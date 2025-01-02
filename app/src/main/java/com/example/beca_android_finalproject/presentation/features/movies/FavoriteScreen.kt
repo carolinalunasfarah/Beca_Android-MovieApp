@@ -27,7 +27,8 @@ import com.example.beca_android_finalproject.ui.theme.Surface
 fun FavoritesScreen(
     viewModel: MoviesViewModel = hiltViewModel(),
     onMovieClick: (Int) -> Unit,
-    onExploreMoviesClick: () -> Unit
+    onExploreMoviesClick: () -> Unit,
+    isConnected: Boolean
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val favoriteMovies by viewModel.favoriteMovies.collectAsState()
@@ -90,6 +91,7 @@ fun FavoritesScreen(
                         onLoadMore = {},
                         isLoading = false,
                         errorMessage = "",
+                        isConnected = isConnected,
                     )
                 }
             }

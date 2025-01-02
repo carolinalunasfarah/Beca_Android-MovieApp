@@ -71,8 +71,6 @@ fun MovieDetailsScreen(
                 AsyncImage(
                     model = movie.poster,
                     contentDescription = null,
-                    //modifier = Modifier
-                    //  .fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.padding(16.dp))
@@ -83,7 +81,6 @@ fun MovieDetailsScreen(
                     modifier = Modifier
                         .padding(bottom = 8.dp, top = 8.dp, start = 15.dp, end = 15.dp)
                         .fillMaxWidth(),
-                    //.height(50.dp),
                     textAlign = TextAlign.Center
                 )
 

@@ -34,7 +34,8 @@ import com.example.beca_android_finalproject.ui.theme.Surface
 fun MovieCard(
     movie: Movie,
     onClick: () -> Unit,
-    onFavoriteClick: (Int) -> Unit
+    onFavoriteClick: (Int) -> Unit,
+    isConnected: Boolean
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -44,7 +45,9 @@ fun MovieCard(
         modifier = Modifier
             .padding(8.dp)
             .height(400.dp)
-            .clickable { onClick() },
+            .clickable(enabled = isConnected) {
+                if (isConnected) onClick()
+            }
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),

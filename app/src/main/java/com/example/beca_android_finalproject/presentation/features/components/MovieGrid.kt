@@ -18,7 +18,8 @@ fun MovieGrid(
     errorMessage: String?,
     onMovieClick: (Int) -> Unit,
     onFavoriteClick: (Int) -> Unit,
-    onLoadMore: () -> Unit
+    onLoadMore: () -> Unit,
+    isConnected: Boolean
 ) {
     if (isLoading && movies.isEmpty()) {
         LoadingIndicator()
@@ -33,7 +34,8 @@ fun MovieGrid(
                 MovieCard(
                     movie = movie,
                     onClick = { onMovieClick(movie.id) },
-                    onFavoriteClick = onFavoriteClick
+                    onFavoriteClick = onFavoriteClick,
+                    isConnected = isConnected
                 )
             }
 

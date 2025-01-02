@@ -53,6 +53,18 @@ android {
         compose = true
         buildConfig = true
     }
+
+    packaging {
+        resources {
+            excludes.addAll(
+                mutableSetOf(
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE-notice.md",
+                    "META-INF/LICENSE*"
+                )
+            )
+        }
+    }
 }
 
 dependencies {
@@ -107,22 +119,21 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     // For Unit Testing
-    testImplementation ("org.jetbrains.kotlin:kotlin-test")
+    testImplementation (libs.kotlin.test)
 
     // Mockk
-    testImplementation ("io.mockk:mockk-android:1.13.13")
-    testImplementation ("io.mockk:mockk-agent:1.13.13")
-    testImplementation ("io.mockk:mockk:1.13.13")
-    androidTestImplementation ("io.mockk:mockk-android:1.13.13")
-    androidTestImplementation ("io.mockk:mockk-android:1.13.13")
-    androidTestImplementation ("io.mockk:mockk-agent:1.13.13")
+    testImplementation (libs.mockk.android)
+    testImplementation (libs.mockk.agent)
+    testImplementation (libs.mockk)
+    androidTestImplementation (libs.mockk.android)
+    androidTestImplementation (libs.mockk.agent)
 
     // For Room Database Tests
-    testImplementation ("androidx.room:room-testing:2.6.1")
+    testImplementation (libs.androidx.room.testing)
 
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
-    testImplementation("androidx.test:core:1.6.1")
-    testImplementation("androidx.test:runner:1.6.2")
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.core)
+    testImplementation(libs.androidx.runner)
 }
 
 kapt {

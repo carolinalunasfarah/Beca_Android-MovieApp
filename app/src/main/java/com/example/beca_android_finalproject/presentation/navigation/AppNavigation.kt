@@ -16,6 +16,7 @@ import androidx.navigation.navArgument
 import com.example.beca_android_finalproject.presentation.features.components.BottomNavBar
 import com.example.beca_android_finalproject.presentation.features.components.TopNavBar
 import com.example.beca_android_finalproject.presentation.features.details.MovieDetailsScreen
+import com.example.beca_android_finalproject.presentation.features.details.MovieDetailsViewModel
 import com.example.beca_android_finalproject.presentation.features.movies.FavoritesScreen
 import com.example.beca_android_finalproject.presentation.features.movies.MoviesScreen
 import com.example.beca_android_finalproject.presentation.features.search.SearchScreen
@@ -28,13 +29,17 @@ import com.example.beca_android_finalproject.ui.theme.Background
 fun AppNavigation(navController: NavHostController) {
     val moviesViewModel = hiltViewModel<MoviesViewModel>()
     val searchViewModel = hiltViewModel<SearchViewModel>()
+    val isConnected by moviesViewModel.isConnected.collectAsState()
 
     Scaffold(
         topBar = {
             TopNavBar()
         },
         bottomBar = {
-            BottomNavBar(navController = navController)
+            BottomNavBar(
+                navController = navController,
+                isConnected = isConnected
+            )
         },
     ) { innerPadding ->
         NavHost(
@@ -45,13 +50,15 @@ fun AppNavigation(navController: NavHostController) {
                 .background(Background)
         ) {
             composable(ScreenNavigation.Movies.route) {
-                val isConnected by moviesViewModel.isConnected.collectAsState()
                 if (isConnected) {
-                    MoviesScreen(viewModel = moviesViewModel, onMovieClick = { movieId ->
-                        navController.navigate(
-                            ScreenNavigation.MovieDetails(movieId).createRoute(movieId)
-                        )
-                    })
+                    MoviesScreen(
+                        viewModel = moviesViewModel,
+                        onMovieClick = { movieId ->
+                            navController.navigate(
+                                ScreenNavigation.MovieDetails(movieId).createRoute(movieId)
+                            )
+                        },
+                        isConnected = isConnected)
                 } else {
                     FavoritesScreen(
                         viewModel = moviesViewModel,
@@ -62,17 +69,22 @@ fun AppNavigation(navController: NavHostController) {
                         },
                         onExploreMoviesClick = {
                             navController.navigate(ScreenNavigation.Movies.route)
-                        }
+                        },
+                        isConnected = isConnected
                     )
                 }
             }
 
             composable(ScreenNavigation.Search.route) {
-                SearchScreen(viewModel = searchViewModel, onMovieClick = { movieId ->
-                    navController.navigate(
-                        ScreenNavigation.MovieDetails(movieId).createRoute(movieId)
-                    )
-                })
+                SearchScreen(
+                    viewModel = searchViewModel,
+                    onMovieClick = { movieId ->
+                        navController.navigate(
+                            ScreenNavigation.MovieDetails(movieId).createRoute(movieId)
+                        )
+                    },
+                    isConnected = isConnected
+                )
             }
 
             composable(ScreenNavigation.FavoritesMovies.route) {
@@ -85,7 +97,8 @@ fun AppNavigation(navController: NavHostController) {
                     },
                     onExploreMoviesClick = {
                         navController.navigate(ScreenNavigation.Movies.route)
-                    }
+                    },
+                    isConnected = isConnected
                 )
             }
 

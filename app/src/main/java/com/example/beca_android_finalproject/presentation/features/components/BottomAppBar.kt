@@ -25,7 +25,10 @@ import com.example.beca_android_finalproject.ui.theme.Secondary
 import com.example.beca_android_finalproject.ui.theme.Surface
 
 @Composable
-fun BottomNavBar(navController: NavHostController) {
+fun BottomNavBar(
+    navController: NavHostController,
+    isConnected: Boolean) {
+
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
     BottomAppBar(
@@ -40,24 +43,26 @@ fun BottomNavBar(navController: NavHostController) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
-            IconButton(onClick = { navController.navigate(ScreenNavigation.Movies.route) }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.movie),
-                    contentDescription = "Movies",
-                    tint = if (currentRoute == ScreenNavigation.Movies.route) Secondary else Primary,
-                    modifier = Modifier
-                        .size(30.dp)
-                )
-            }
+            if (isConnected) {
+                IconButton(onClick = { navController.navigate(ScreenNavigation.Movies.route) }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.movie),
+                        contentDescription = "Movies",
+                        tint = if (currentRoute == ScreenNavigation.Movies.route) Secondary else Primary,
+                        modifier = Modifier
+                            .size(30.dp)
+                    )
+                }
 
-            IconButton(onClick = { navController.navigate(ScreenNavigation.Search.route) }) {
-                Icon(
-                    Icons.Filled.Search,
-                    contentDescription = "Search",
-                    tint = if (currentRoute == ScreenNavigation.Search.route) Secondary else Primary,
-                    modifier = Modifier
-                        .size(30.dp)
-                )
+                IconButton(onClick = { navController.navigate(ScreenNavigation.Search.route) }) {
+                    Icon(
+                        Icons.Filled.Search,
+                        contentDescription = "Search",
+                        tint = if (currentRoute == ScreenNavigation.Search.route) Secondary else Primary,
+                        modifier = Modifier
+                            .size(30.dp)
+                    )
+                }
             }
 
             IconButton(onClick = { navController.navigate(ScreenNavigation.FavoritesMovies.route) }) {
