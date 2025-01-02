@@ -1,16 +1,16 @@
-# Reel Scout - Exploración de Películas 🎞
+# Reel Scout - Exploración de Películas 🍿
 Aplicación móvil que permite la exploración y gestión de películas. Ofrece funcionalidades como ver películas populares, buscar películas, ver detalles de cada una, marcar películas como favoritas y guardar listado de películas favoritas.
 
 La aplicación utiliza la API de The Movie DB para obtener datos de películas, implementa persistencia local con Room para almacenar los favoritos. La arquitectura del proyecto está basada en Clean Architecture, con MVVM para la gestión del ciclo de vida y Hilt para la inyección de dependencias.
 
-## Características 🧰
+## Características 📋
 - Explorar películas populares  
 - Buscar películas por nombre  
 - Ver detalles completos de cada película  
 - Marcar y desmarcar películas como favoritas  
 - Ver lista de favoritos offline  
 
-## Requerimientos Técnicos ⚙
+## Requerimientos Técnicos 🛠️
 1. API y Networking
 The Movie DB API para obtener datos de películas.
 Retrofit con Coroutines para manejar la comunicación con la API.
@@ -32,19 +32,19 @@ Repository Pattern para manejar la interacción entre los datos remotos y locale
 6. Testing
 Unit Tests para probar las funciones y componentes clave de la aplicación.
 
-## Estructura del Proyecto
+## Estructura del Proyecto 🗂️
 - data: Contiene las fuentes de datos, incluyendo las implementaciones de la API y Room.
 - domain: La capa de dominio que incluye los casos de uso y los modelos de negocio.
 - presentation: Contiene la UI de la aplicación, ViewModels, y eventos de UI.
 - di: Configuración de Hilt para la inyección de dependencias.
 - utils: Funciones y clases utilitarias, como manejadores de red o conectividad.
 
-## Tecnologías Utilizadas
+## Tecnologías Utilizadas 🔧
 - Android: Kotlin, Jetpack Compose, Hilt, Room, Retrofit, Coroutines
 - API: The Movie DB
 - Arquitectura: Clean Architecture, MVVM
 - Testing: Unit tests con JUnit, MockK
 
-## Desarrollada con
+## Desarrollada con 💡
 ![Kotlin](https://img.shields.io/badge/Kotlin-grey?style=for-the-badge&logo=kotlin)
 ![Jetpack Compose](https://img.shields.io/badge/Jetpack_Compose-grey?style=for-the-badge&logo=android)
