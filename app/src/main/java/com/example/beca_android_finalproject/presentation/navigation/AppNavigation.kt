@@ -1,5 +1,6 @@
 package com.example.beca_android_finalproject.presentation.navigation
 
+import WelcomeScreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -30,24 +31,41 @@ fun AppNavigation(navController: NavHostController) {
     val searchViewModel = hiltViewModel<SearchViewModel>()
     val isConnected by moviesViewModel.isConnected.collectAsState()
 
+    val currentRoute = navController.currentBackStackEntryFlow.collectAsState(initial = null)
+        .value?.destination?.route
+
+    val showBars = currentRoute != "welcome"
+
     Scaffold(
         topBar = {
-            TopNavBar()
+            if (showBars) {
+                TopNavBar()
+            }
         },
         bottomBar = {
-            BottomNavBar(
-                navController = navController,
-                isConnected = isConnected
-            )
+            if (showBars) {
+                BottomNavBar(
+                    navController = navController,
+                    isConnected = isConnected
+                )
+            }
         },
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = ScreenNavigation.Movies.route,
+            startDestination = "welcome",
             modifier = Modifier
                 .padding(innerPadding)
                 .background(Background)
         ) {
+            composable("welcome") {
+                WelcomeScreen(onNavigate = {
+                    navController.navigate(ScreenNavigation.Movies.route) {
+                        popUpTo("welcome") { inclusive = true }
+                    }
+                })
+            }
+
             composable(ScreenNavigation.Movies.route) {
                 if (isConnected) {
                     MoviesScreen(
@@ -101,7 +119,6 @@ fun AppNavigation(navController: NavHostController) {
                     isConnected = isConnected
                 )
             }
-
 
             composable(
                 route = "details/{movieId}",

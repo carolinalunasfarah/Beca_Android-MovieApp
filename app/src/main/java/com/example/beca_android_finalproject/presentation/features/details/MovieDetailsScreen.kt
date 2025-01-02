@@ -35,6 +35,7 @@ import com.example.beca_android_finalproject.domain.model.Movie
 import com.example.beca_android_finalproject.presentation.features.composables.ErrorMessage
 import com.example.beca_android_finalproject.presentation.features.composables.LoadingIndicator
 import com.example.beca_android_finalproject.presentation.uimodel.uievents.MovieDetailsUiEvent
+import com.example.beca_android_finalproject.presentation.uimodel.uievents.MoviesUiEvent
 import com.example.beca_android_finalproject.presentation.viewmodel.MoviesViewModel
 import com.example.beca_android_finalproject.ui.theme.OnSurface
 import com.example.beca_android_finalproject.ui.theme.Secondary
@@ -47,11 +48,15 @@ fun MovieDetailsScreen(
     movieId: Int
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val favoriteMovies by viewModelFavorite.favoriteMovies.collectAsState()
+
     var movie by remember { mutableStateOf<Movie?>(null) }
 
     if (uiState.movieDetails == null && !uiState.isLoading) {
         viewModel.onEvent(MovieDetailsUiEvent.MovieDetails(movieId))
     }
+
+    val isFavorite = favoriteMovies.any { it.id == movieId }
 
     when {
         uiState.isLoading -> {
@@ -118,24 +123,23 @@ fun MovieDetailsScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = if (movie?.isFavorite == true) "Remove favorite" else "Add favorite",
+                            text = if (isFavorite) "Remove favorite" else "Add favorite",
                             style = MaterialTheme.typography.bodySmall,
                             modifier = Modifier,
                             textAlign = TextAlign.Center
                         )
                         IconButton(
                             onClick = {
-                                viewModelFavorite.toggleFavorite(movie?.id ?: 0)
+                                viewModelFavorite.onEvent(MoviesUiEvent.ToggleFavorite(movieId))
                             },
                             modifier = Modifier
                                 .padding(bottom = 8.dp)
                         ) {
-                            val favoriteIcon =
-                                if (movie?.isFavorite == true) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder
+                            val favoriteIcon = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder
                             Icon(
                                 imageVector = favoriteIcon,
                                 contentDescription = "Favorite",
-                                tint = if (movie?.isFavorite == true) Secondary else OnSurface,
+                                tint = if (isFavorite) Secondary else OnSurface,
                                 modifier = Modifier.size(30.dp)
                             )
                         }

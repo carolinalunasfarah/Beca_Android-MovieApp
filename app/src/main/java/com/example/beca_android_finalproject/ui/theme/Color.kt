@@ -13,12 +13,12 @@ val Surface = Color(0xFFB6AAC8) // Color de las superficies (tarjetas, paneles, 
 val OnSurface = Color(0xFF1F1A26) // Color del texto o contenido sobre las superficies
 
 // Dark Theme Colors
-val DarkPrimary = Color(0xFFB3A1CF)
-val DarkOnPrimary = Color(0xFF403E3E)
-val DarkSecondary = Color(0xFFF9F699)
-val DarkOnSecondary = Color(0xFF403E3E)
-val DarkBackground = Color(0xFF1A1919)
-val DarkOnBackground = Color(0xFFFFFFFF)
-val DarkSurface = Color(0xFF1A1919)
-val DarkOnSurface = Color(0xFFFFFFFF)
+val DarkPrimary = Color(0xFF493566)
+val OnDarkPrimary = Color(0xFFFFFFFF)
+val DarkSecondary = Color(0xFF833939)
+val OnDarkSecondary = Color(0xFF403E3E)
+val DarkBackground = Color(0xFF1F1A26)
+val OnDarkBackground = Color(0xFFE6D8E5)
+val DarkSurface = Color(0xFF2C2438)
+val OnDarkSurface = Color(0xFFE6D8E5)
 
