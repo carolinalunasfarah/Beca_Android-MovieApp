@@ -50,6 +50,10 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun searchMovies(query: String, page: Int): Flow<List<Movie>> = flow {
         try {
             val remoteMovies = remoteDataSource.searchMovies(query, page).movies
+
+            val movieEntities = movieRemoteMapper.toEntityList(remoteMovies)
+            localDataSource.insertMovies(movieEntities)
+
             emit(remoteMovies.map { movieRemoteMapper.toDomain(it) })
         } catch (e: Exception) {
             throw e

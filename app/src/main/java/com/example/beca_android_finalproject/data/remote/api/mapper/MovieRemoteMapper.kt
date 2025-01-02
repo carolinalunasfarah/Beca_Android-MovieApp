@@ -29,4 +29,8 @@ class MovieRemoteMapper @Inject constructor() {
     fun toDomainList(entities: List<MovieDto>): List<Movie> {
         return entities.map { toDomain(it) }
     }
+
+    fun toEntityList(remoteMovies: List<MovieDto>): List<MovieEntity> {
+        return remoteMovies.map { toEntity(it) }
+    }
 }
