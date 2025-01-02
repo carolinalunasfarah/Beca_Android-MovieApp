@@ -9,11 +9,14 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDao {
-    @Query("SELECT * FROM movies WHERE is_favorite = 1")
-    fun getFavorites(): Flow<List<MovieEntity>>
-
     @Query("SELECT * FROM movies")
     fun getPopularMovies(): Flow<List<MovieEntity>>
+
+    @Query("SELECT * FROM movies WHERE id = :movieId LIMIT 1")
+    suspend fun getMovieById(movieId: Int): MovieEntity?
+
+    @Query("SELECT * FROM movies WHERE is_favorite = 1")
+    fun getFavorites(): Flow<List<MovieEntity>>
 
     @Query("SELECT is_favorite FROM movies WHERE id = :movieId")
     fun isFavorite(movieId: Int): Flow<Boolean>
@@ -24,6 +27,5 @@ interface MovieDao {
     @Query("UPDATE movies SET is_favorite = :isFavorite WHERE id = :movieId")
     suspend fun updateFavorite(movieId: Int, isFavorite: Boolean)
 
-    @Query("SELECT * FROM movies WHERE id = :movieId LIMIT 1")
-    suspend fun getMovieById(movieId: Int): MovieEntity?
+
 }

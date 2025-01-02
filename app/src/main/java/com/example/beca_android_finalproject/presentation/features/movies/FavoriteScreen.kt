@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.beca_android_finalproject.presentation.features.components.MovieGrid
@@ -72,7 +73,7 @@ fun FavoritesScreen(
 
                         Text(
                             text = message,
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = MaterialTheme.typography.bodyLarge,
                             color = OnPrimary
                         )
                         Spacer(modifier = Modifier.padding(8.dp))
@@ -85,7 +86,11 @@ fun FavoritesScreen(
                                     contentColor = Secondary
                                 )
                             ) {
-                                Text("Explore Movies")
+                                Text(
+                                    text = "Explore Movies",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = FontWeight.Bold
+                                )
                             }
                         }
                     }

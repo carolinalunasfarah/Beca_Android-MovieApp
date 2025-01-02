@@ -13,11 +13,11 @@ class RemoteDataSource @Inject constructor(
         return api.getPopularMovies(page)
     }
 
-    suspend fun searchMovies(query: String, page: Int): MovieResponse {
-        return api.searchMovies(query, page)
-    }
-
     suspend fun getMovieDetails(movieId: Int): MovieDto {
         return api.getMovieDetails(movieId)
+    }
+
+    suspend fun searchMovies(query: String, page: Int): MovieResponse {
+        return api.searchMovies(query, page)
     }
 }

@@ -143,9 +143,5 @@ fun MovieDetailsScreen(
                 }
             }
         }
-
-        else -> {
-            ErrorMessage(message = "Movie not found for ID: $movieId")
-        }
     }
 }

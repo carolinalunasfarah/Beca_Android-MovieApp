@@ -8,7 +8,13 @@ import javax.inject.Inject
 class LocalDataSource @Inject constructor(
     private val movieDao: MovieDao
 ) {
+    suspend fun getMovieDetails(movieId: Int): MovieEntity? {
+        return movieDao.getMovieById(movieId)
+    }
+
     fun getFavorites(): Flow<List<MovieEntity>> = movieDao.getFavorites()
+
+    fun isFavorite(movieId: Int): Flow<Boolean> = movieDao.isFavorite(movieId)
 
     suspend fun insertMovies(movies: List<MovieEntity>) {
         movieDao.insertMovies(movies)
@@ -16,11 +22,5 @@ class LocalDataSource @Inject constructor(
 
     suspend fun updateFavorite(movieId: Int, isFavorite: Boolean) {
         movieDao.updateFavorite(movieId, isFavorite)
-    }
-
-    fun isFavorite(movieId: Int): Flow<Boolean> = movieDao.isFavorite(movieId)
-
-    suspend fun getMovieDetails(movieId: Int): MovieEntity? {
-        return movieDao.getMovieById(movieId)
     }
 }
