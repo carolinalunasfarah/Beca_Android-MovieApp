@@ -16,7 +16,6 @@ import androidx.navigation.navArgument
 import com.example.beca_android_finalproject.presentation.features.components.BottomNavBar
 import com.example.beca_android_finalproject.presentation.features.components.TopNavBar
 import com.example.beca_android_finalproject.presentation.features.details.MovieDetailsScreen
-import com.example.beca_android_finalproject.presentation.features.details.MovieDetailsViewModel
 import com.example.beca_android_finalproject.presentation.features.movies.FavoritesScreen
 import com.example.beca_android_finalproject.presentation.features.movies.MoviesScreen
 import com.example.beca_android_finalproject.presentation.features.search.SearchScreen
@@ -55,7 +54,7 @@ fun AppNavigation(navController: NavHostController) {
                         viewModel = moviesViewModel,
                         onMovieClick = { movieId ->
                             navController.navigate(
-                                ScreenNavigation.MovieDetails(movieId).createRoute(movieId)
+                                ScreenNavigation.MovieDetails(movieId).createRoute()
                             )
                         },
                         isConnected = isConnected)
@@ -64,7 +63,7 @@ fun AppNavigation(navController: NavHostController) {
                         viewModel = moviesViewModel,
                         onMovieClick = { movieId ->
                             navController.navigate(
-                                ScreenNavigation.MovieDetails(movieId).createRoute(movieId)
+                                ScreenNavigation.MovieDetails(movieId).createRoute()
                             )
                         },
                         onExploreMoviesClick = {
@@ -80,7 +79,7 @@ fun AppNavigation(navController: NavHostController) {
                     viewModel = searchViewModel,
                     onMovieClick = { movieId ->
                         navController.navigate(
-                            ScreenNavigation.MovieDetails(movieId).createRoute(movieId)
+                            ScreenNavigation.MovieDetails(movieId).createRoute()
                         )
                     },
                     isConnected = isConnected
@@ -92,7 +91,7 @@ fun AppNavigation(navController: NavHostController) {
                     viewModel = moviesViewModel,
                     onMovieClick = { movieId ->
                         navController.navigate(
-                            ScreenNavigation.MovieDetails(movieId).createRoute(movieId)
+                            ScreenNavigation.MovieDetails(movieId).createRoute()
                         )
                     },
                     onExploreMoviesClick = {
@@ -102,8 +101,9 @@ fun AppNavigation(navController: NavHostController) {
                 )
             }
 
+
             composable(
-                route = ScreenNavigation.MovieDetails("{movieId}").route,
+                route = "details/{movieId}",
                 arguments = listOf(navArgument("movieId") { type = NavType.IntType })
             ) { backStackEntry ->
                 val movieId = backStackEntry.arguments?.getInt("movieId") ?: 0
@@ -112,6 +112,7 @@ fun AppNavigation(navController: NavHostController) {
                     viewModelFavorite = moviesViewModel
                 )
             }
+
         }
     }
 }
