@@ -64,21 +64,29 @@ fun FavoritesScreen(
                         horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
                         verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center
                     ) {
+                        val message = if (!isConnected) {
+                            "To add favorites, you need an internet connection"
+                        } else {
+                            "You have no favorite movies (yet)"
+                        }
+
                         Text(
-                            text = "You have no favorites movies (yet)",
+                            text = message,
                             style = MaterialTheme.typography.bodyMedium,
                             color = OnPrimary
                         )
                         Spacer(modifier = Modifier.padding(8.dp))
 
-                        Button(
-                            onClick = onExploreMoviesClick,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Surface,
-                                contentColor = Secondary
-                            )
-                        ) {
-                            Text("Explore Movies")
+                        if (isConnected) {
+                            Button(
+                                onClick = onExploreMoviesClick,
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Surface,
+                                    contentColor = Secondary
+                                )
+                            ) {
+                                Text("Explore Movies")
+                            }
                         }
                     }
                 } else {

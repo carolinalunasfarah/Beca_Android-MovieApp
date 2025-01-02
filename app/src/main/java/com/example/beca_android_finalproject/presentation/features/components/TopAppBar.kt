@@ -6,10 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.beca_android_finalproject.R
 import com.example.beca_android_finalproject.ui.theme.Secondary
 import com.example.beca_android_finalproject.ui.theme.Surface
 
@@ -33,6 +36,9 @@ fun TopNavBar(
 
 @Composable
 fun TopNavBarTitle(s: String, contentColor: Color) {
+    val courgetteFont = FontFamily (
+        Font(R.font.courgette_regular)
+    )
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
@@ -43,7 +49,8 @@ fun TopNavBarTitle(s: String, contentColor: Color) {
             fontWeight = FontWeight.Bold,
             color = contentColor,
             modifier = Modifier.padding(top = 10.dp),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            fontFamily = courgetteFont
         )
     }
 }
