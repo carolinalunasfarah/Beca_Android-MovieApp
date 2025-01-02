@@ -28,6 +28,8 @@ class MovieDetailsViewModel @Inject constructor(
 
     private fun loadMovieDetails(movieId: Int) {
         viewModelScope.launch {
+            if (_uiState.value.isLoading) return@launch
+
             _uiState.update { it.copy(isLoading = true) }
 
             try {
@@ -37,7 +39,7 @@ class MovieDetailsViewModel @Inject constructor(
                             it.copy(
                                 isLoading = false,
                                 error = null,
-                                movies = listOf(movieDetails)
+                                movieDetails = movieDetails
                             )
                         }
                     }
@@ -48,5 +50,5 @@ class MovieDetailsViewModel @Inject constructor(
             }
         }
     }
-
 }
+

@@ -28,6 +28,11 @@ fun SearchScreen(
     val favoriteMovies by viewModelMovie.favoriteMovies.collectAsState()
     var query by remember { mutableStateOf("") }
 
+    val updatedMovies = uiState.movies.map { movie ->
+        val isFavorite = favoriteMovies.any { it.id == movie.id }
+        movie.copy(isFavorite = isFavorite)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -79,11 +84,6 @@ fun SearchScreen(
             }
 
             else -> {
-                val updatedMovies = uiState.movies.map { movie ->
-                    val isFavorite = favoriteMovies.any { it.id == movie.id }
-                    movie.copy(isFavorite = isFavorite)
-                }
-
                 MovieGrid(
                     movies = updatedMovies,
                     onMovieClick = onMovieClick,

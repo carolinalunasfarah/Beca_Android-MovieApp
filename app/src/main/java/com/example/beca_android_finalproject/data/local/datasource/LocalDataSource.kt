@@ -19,4 +19,8 @@ class LocalDataSource @Inject constructor(
     }
 
     fun isFavorite(movieId: Int): Flow<Boolean> = movieDao.isFavorite(movieId)
+
+    suspend fun getMovieDetails(movieId: Int): MovieEntity? {
+        return movieDao.getMovieById(movieId)
+    }
 }

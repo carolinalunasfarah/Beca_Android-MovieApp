@@ -5,5 +5,6 @@ import com.example.beca_android_finalproject.domain.model.Movie
 data class MoviesUiState(
     val movies: List<Movie> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val movieDetails: Movie? = null,
 )

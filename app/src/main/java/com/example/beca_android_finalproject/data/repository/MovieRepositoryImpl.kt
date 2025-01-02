@@ -58,13 +58,21 @@ class MovieRepositoryImpl @Inject constructor(
 
 
     override suspend fun getMovieDetails(movieId: Int): Flow<Movie> = flow {
-            try {
-                val movieDto = remoteDataSource.getMovieDetails(movieId)
-                emit(movieRemoteMapper.toDomain(movieDto))
-            } catch (e: Exception) {
-                throw e
+        try {
+            val localMovie = localDataSource.getMovieDetails(movieId)
+
+            if (localMovie != null) {
+                emit(movieLocalMapper.toDomain(localMovie))
             }
+
+            val remoteMovie = remoteDataSource.getMovieDetails(movieId)
+            emit(movieRemoteMapper.toDomain(remoteMovie))
+        } catch (e: Exception) {
+            throw e
+        }
     }.flowOn(dispatcher)
+
+
 
 
     override suspend fun toggleFavorite(movieId: Int) {
