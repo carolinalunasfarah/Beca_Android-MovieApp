@@ -87,7 +87,7 @@ fun MovieDetailsScreen(
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = movie?.title ?: "Movie Title",
+                        text = movie?.title ?: "Título no disponible",
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier
                             .padding(8.dp)
@@ -99,15 +99,15 @@ fun MovieDetailsScreen(
                     Spacer(modifier = Modifier.padding(16.dp))
 
                     AsyncImage(
-                        model = movie?.poster,
-                        contentDescription = null,
+                        model = movie?.poster ?: "url_de_imagen_por_defecto",
+                        contentDescription = "Poster de la película",
                     )
 
                     Spacer(modifier = Modifier.padding(16.dp))
 
                     val overviewText = movie?.overview?.ifEmpty {
-                        "There's no overview for this movie"
-                    } ?: "No overview available"
+                        "No hay descripción disponible"
+                    } ?: "No hay descripción disponible"
 
                     Text(
                         overviewText,

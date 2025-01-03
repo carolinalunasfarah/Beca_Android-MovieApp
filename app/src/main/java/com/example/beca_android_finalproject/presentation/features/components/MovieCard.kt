@@ -55,7 +55,7 @@ fun MovieCard(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = movie.title,
+                text = movie.title.ifEmpty { "Título no disponible" },
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier
                     .padding(8.dp)
@@ -67,8 +67,8 @@ fun MovieCard(
             Spacer(modifier = Modifier.padding(8.dp))
 
             AsyncImage(
-                model = movie.poster,
-                contentDescription = null,
+                model = movie.poster ?: "url_de_imagen_por_defecto",
+                contentDescription = "Poster de la película",
                 modifier = Modifier
                     .fillMaxWidth()
             )
