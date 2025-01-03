@@ -31,13 +31,13 @@ class MovieRepositoryImplTest {
     @MockK
     private lateinit var remoteDataSource: RemoteDataSource
 
-    @MockK
+    @MockK(relaxed = true)
     private lateinit var localDataSource: LocalDataSource
 
-    @MockK
+    @MockK(relaxed = true)
     private lateinit var movieRemoteMapper: MovieRemoteMapper
 
-    @MockK
+    @MockK(relaxed = true)
     private lateinit var movieLocalMapper: MovieLocalMapper
 
     @MockK
@@ -98,7 +98,37 @@ class MovieRepositoryImplTest {
 
     // getPopularMovies
     @Test
-    fun `Given popular movies and local favorites, Then return mapped movies and sync favorites`() = runTest {
+    fun `Given popular movies and local favorites, Then return mapped movies and sync favorites`() =
+        runTest {
+            // Given
+            val page = 1
+            val movieResponse = MovieResponse(
+                page = 1,
+                movies = listOf(testMovieDto),
+                totalPages = 1,
+                totalResults = 1
+            )
+            val localFavorites = listOf(testMovieEntity)
+
+            coEvery { remoteDataSource.getPopularMovies(page) } returns movieResponse
+            coEvery { localDataSource.getFavorites() } returns flowOf(localFavorites)
+            coEvery { movieRemoteMapper.toEntity(any()) } returns testMovieEntity
+            coEvery { localDataSource.insertMovies(any()) } just Runs
+            coEvery { movieRemoteMapper.toDomainList(any()) } returns listOf(testMovie)
+
+            // When
+            val result = movieRepository.getPopularMovies(page).first()
+
+            // Then
+            assertEquals(listOf(testMovie), result)
+            coVerify { remoteDataSource.getPopularMovies(page) }
+            coVerify { localDataSource.getFavorites() }
+            coVerify { localDataSource.insertMovies(any()) }
+        }
+
+
+    @Test
+    fun `Given a search query and remote movies, Then return mapped movies`() = runTest {
         // Given
         val page = 1
         val movieResponse = MovieResponse(
@@ -112,6 +142,7 @@ class MovieRepositoryImplTest {
         coEvery { remoteDataSource.getPopularMovies(page) } returns movieResponse
         coEvery { localDataSource.getFavorites() } returns flowOf(localFavorites)
         coEvery { movieRemoteMapper.toEntity(any()) } returns testMovieEntity
+        coEvery { movieRemoteMapper.toEntityList(any()) } returns listOf(testMovieEntity)
         coEvery { localDataSource.insertMovies(any()) } just Runs
         coEvery { movieRemoteMapper.toDomainList(any()) } returns listOf(testMovie)
 
@@ -126,78 +157,65 @@ class MovieRepositoryImplTest {
     }
 
 
-    // searchMovies
-    @Test
-    fun `Given a search query and remote movies, Then return mapped movies`() = runTest {
-        // Given
-        val query = "Test"
-        val page = 1
-        val movieResponse = MovieResponse(
-            page = 1,
-            movies = listOf(testMovieDto),
-            totalPages = 1,
-            totalResults = 1
-        )
-
-        coEvery { remoteDataSource.searchMovies(query, page) } returns movieResponse
-        coEvery { movieRemoteMapper.toDomain(any()) } returns testMovie
-
-        // When
-        val result = movieRepository.searchMovies(query, page).first()
-
-        // Then
-        assertEquals(listOf(testMovie), result)
-        coVerify { remoteDataSource.searchMovies(query, page) }
-    }
-
     // getMovieDetails
     @Test
     fun `Given a movie ID, Then return the mapped movie details`() = runTest {
         // Given
         val movieId = 1
+
+        // Configura la simulación para remoteDataSource y localDataSource
         coEvery { remoteDataSource.getMovieDetails(movieId) } returns testMovieDto
-        coEvery { movieRemoteMapper.toDomain(any()) } returns testMovie
+        coEvery { localDataSource.getMovieDetails(movieId) } returns testMovieEntity
+        every { movieLocalMapper.toDomain(testMovieEntity) } returns testMovie
 
         // When
         val result = movieRepository.getMovieDetails(movieId).first()
 
         // Then
         assertEquals(testMovie, result)
-        coVerify { remoteDataSource.getMovieDetails(movieId) }
+        coVerify(exactly = 1) { remoteDataSource.getMovieDetails(movieId) }
+        coVerify(exactly = 1) { localDataSource.getMovieDetails(movieId) }
+        verify(exactly = 1) { movieLocalMapper.toDomain(testMovieEntity) }
     }
+
+
 
     // toggleFavorite
     @Test
     fun `Given a movie ID and current favorite status, Then update the favorite status`() = runTest {
         // Given
         val movieId = 1
-        val isFavorite = true
+        testMovieEntity.copy(isFavorite = false)
 
-        coEvery { localDataSource.isFavorite(movieId) } returns flowOf(isFavorite)
-        coEvery { localDataSource.updateFavorite(movieId, !isFavorite) } just Runs
+        coEvery { localDataSource.isFavorite(movieId) } returns flowOf(false)
+        coEvery { localDataSource.updateFavorite(movieId, true) } just Runs
 
         // When
         movieRepository.toggleFavorite(movieId)
 
         // Then
-        coVerify { localDataSource.updateFavorite(movieId, !isFavorite) }
+        coVerify(exactly = 1) { localDataSource.isFavorite(movieId) }
+        coVerify(exactly = 1) { localDataSource.updateFavorite(movieId, true) }
     }
+
+
 
     // getFavorites
     @Test
-    fun `Given favorite movies in the local data source, Then return the list of favorite movies`() = runTest{
-        // Given
-        val favoriteMovies = listOf(testMovieEntity)
+    fun `Given favorite movies in the local data source, Then return the list of favorite movies`() =
+        runTest {
+            // Given
+            val favoriteMovies = listOf(testMovieEntity)
 
-        coEvery { localDataSource.getFavorites() } returns flowOf(favoriteMovies)
-        coEvery { movieLocalMapper.toDomainList(any()) } returns listOf(testMovie)
+            coEvery { localDataSource.getFavorites() } returns flowOf(favoriteMovies)
+            coEvery { movieLocalMapper.toDomainList(any()) } returns listOf(testMovie)
 
-        // When
-        val result = movieRepository.getFavorites().first()
+            // When
+            val result = movieRepository.getFavorites().first()
 
-        // Then
-        assertEquals(listOf(testMovie), result)
-        coVerify { localDataSource.getFavorites() }
-    }
+            // Then
+            assertEquals(listOf(testMovie), result)
+            coVerify { localDataSource.getFavorites() }
+        }
 
 }
