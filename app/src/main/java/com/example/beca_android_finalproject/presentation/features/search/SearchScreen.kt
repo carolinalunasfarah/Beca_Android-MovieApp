@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.beca_android_finalproject.presentation.features.components.MovieGrid
 import com.example.beca_android_finalproject.presentation.features.composables.ErrorMessage
@@ -43,7 +44,7 @@ fun SearchScreen(
             text = "Search Movies",
             style = MaterialTheme.typography.titleLarge,
             color = OnPrimary,
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
 
@@ -85,16 +86,13 @@ fun SearchScreen(
             else -> {
                 MovieGrid(
                     movies = updatedMovies,
+                    isLoading = false,
+                    errorMessage = "",
                     onMovieClick = onMovieClick,
                     onFavoriteClick = { movieId ->
                         viewModelMovie.onEvent(MoviesUiEvent.ToggleFavorite(movieId))
                     },
-                    onLoadMore = {
-                        viewModelMovie.onEvent(MoviesUiEvent.LoadMore)
-                    },
-                    isLoading = false,
-                    errorMessage = "",
-                    isConnected = isConnected,
+                    isConnected = isConnected
                 )
             }
         }

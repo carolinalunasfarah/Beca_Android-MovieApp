@@ -53,7 +53,11 @@ class MoviesViewModel @Inject constructor(
     fun onEvent(event: MoviesUiEvent) {
         when (event) {
             is MoviesUiEvent.ToggleFavorite -> toggleFavorite(event.movieId)
-            is MoviesUiEvent.LoadMore -> loadMovies()
+            is MoviesUiEvent.LoadMore -> {
+                if (!_uiState.value.isLoading) {
+                    loadMovies()
+                }
+            }
             is MoviesUiEvent.GetFavorites -> loadFavoriteMovies()
         }
     }
@@ -71,7 +75,7 @@ class MoviesViewModel @Inject constructor(
 
                     _uiState.update {
                         it.copy(
-                            movies = updatedMovies,
+                            movies = it.movies + updatedMovies,
                             isLoading = false,
                             error = null
                         )
