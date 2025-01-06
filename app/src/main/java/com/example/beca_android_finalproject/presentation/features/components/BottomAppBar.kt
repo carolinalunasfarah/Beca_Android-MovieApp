@@ -27,7 +27,8 @@ import com.example.beca_android_finalproject.ui.theme.Surface
 @Composable
 fun BottomNavBar(
     navController: NavHostController,
-    isConnected: Boolean) {
+    isConnected: Boolean
+) {
 
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
@@ -63,13 +64,21 @@ fun BottomNavBar(
                             .size(30.dp)
                     )
                 }
-            }
 
-            IconButton(onClick = { navController.navigate(ScreenNavigation.FavoritesMovies.route) }) {
+                IconButton(onClick = { navController.navigate(ScreenNavigation.FavoritesMovies.route) }) {
+                    Icon(
+                        Icons.Filled.FavoriteBorder,
+                        contentDescription = "Favorites",
+                        tint = if (currentRoute == ScreenNavigation.FavoritesMovies.route) Secondary else Primary,
+                        modifier = Modifier
+                            .size(30.dp)
+                    )
+                }
+            } else {
                 Icon(
                     Icons.Filled.FavoriteBorder,
                     contentDescription = "Favorites",
-                    tint = if (currentRoute == ScreenNavigation.FavoritesMovies.route) Secondary else Primary,
+                    tint = Secondary,
                     modifier = Modifier
                         .size(30.dp)
                 )

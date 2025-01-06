@@ -74,8 +74,11 @@ fun FavoritesScreen(
                         Text(
                             text = message,
                             style = MaterialTheme.typography.bodyLarge,
-                            color = OnPrimary
+                            color = OnPrimary,
+                            modifier = Modifier.padding(start = 25.dp, end = 25.dp),
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
                         )
+
                         Spacer(modifier = Modifier.padding(8.dp))
 
                         if (isConnected) {
@@ -101,7 +104,6 @@ fun FavoritesScreen(
                         onFavoriteClick = { movieId ->
                             viewModel.onEvent(MoviesUiEvent.ToggleFavorite(movieId))
                         },
-                        onLoadMore = {},
                         isLoading = false,
                         errorMessage = "",
                         isConnected = isConnected,
