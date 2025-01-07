@@ -128,10 +128,10 @@ fun MovieDetailsScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = if (isFavorite) "Remove favorite" else "Add favorite",
+                            text = if (isFavorite) "Remove from list" else "Add to list",
                             style = MaterialTheme.typography.bodySmall,
-                            modifier = Modifier,
-                            textAlign = TextAlign.Center
+                            modifier = Modifier.padding(start = 5.dp, end = 5.dp),
+                            textAlign = TextAlign.Center,
                         )
                         IconButton(
                             onClick = {
